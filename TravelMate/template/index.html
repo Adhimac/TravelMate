@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelMate | Explore the World</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">TravelMate</div>
+    <nav>
+      <ul>
+        <li><a href="destination">Destinations</a></li>
+        <li><a href="coTraveler">Co-Travelers</a></li>
+        <li><a href="#">Rent a Car</a></li>
+        <li><a href="#">Hire a Driver</a></li>
+        <li><a href="about">About</a></li>
+
+        <!-- Dropdown -->
+        <li class="dropdown">
+          <button class="dropdown-btn" id="partnerBtn">Be A Partner ▾</button>
+          <div class="dropdown-content" id="dropdownMenu">
+            <a href="partner/driverLogin">Driver Partner</a>
+            <a href="rentalPartner/rentalPartnerLogin">Rental Partner</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <a href="userLogin" class="login-btn">Login</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>Your Travel Partner for Every Journey</h1>
+      <p>Plan trips, find co-travelers, rent cars, and hire trusted drivers — all in one place with TravelMate.</p>
+      <div class="btn-group">
+        <a href="#" class="btn primary">Start Exploring</a>
+        <a href="#" class="btn secondary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Everything You Need for the Perfect Trip</h2>
+    <p class="subtitle">TravelMate connects all your travel needs into one simple platform.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Destinations">
+        <h3>Top Destinations</h3>
+        <p>Explore beautiful and trending travel spots with personalized recommendations.</p>
+      </div>
+      <div class="feature">
+        <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Co-Travelers">
+        <h3>Find Co-Travelers</h3>
+        <p>Meet like-minded travelers and explore new destinations together.</p>
+      </div>
+      <div class="feature">
+        <img src="https://cdn-icons-png.flaticon.com/512/1048/1048313.png" alt="Car Rental">
+        <h3>Rent a Car</h3>
+        <p>Choose from a variety of vehicles for your journey at affordable prices.</p>
+      </div>
+      <div class="feature">
+        <img src="{% static 'img/driver.png' %}" alt="Hire Driver">
+        <h3>Hire a Driver</h3>
+        <p>Hire verified and experienced drivers to ensure a safe and enjoyable journey.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 TravelMate. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ✅ Correct JS placement -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('partnerBtn');
+      const menu = document.getElementById('dropdownMenu');
+
+      if (!btn || !menu) return; // safety check
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        menu.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

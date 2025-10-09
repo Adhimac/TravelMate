@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Dashboard | TravelMate</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/driverHome.css' %}">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="{% static 'img/driver.png' %}" alt="Driver Logo">
+      <h1>TravelMate</h1>
+    </div>
+    <nav>
+      <ul>
+        <li class="active"><a href="#">Dashboard</a></li>
+        <li><a href="#">Trips</a></li>
+        <li><a href="#">Earnings</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="driverLogin">Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <h2>Welcome, John Doe</h2>
+      <div class="top-right">
+        <span class="notification">🔔</span>
+        <span class="user">👤</span>
+      </div>
+    </header>
+
+    <!-- Dashboard Cards -->
+    <section class="dashboard-cards">
+      <div class="card">
+        <h3>Total Trips</h3>
+        <p>45</p>
+      </div>
+      <div class="card">
+        <h3>Completed Trips</h3>
+        <p>42</p>
+      </div>
+      <div class="card">
+        <h3>Earnings</h3>
+        <p>₹ 12,450</p>
+      </div>
+      <div class="card">
+        <h3>Rating</h3>
+        <p>4.8 ⭐</p>
+      </div>
+    </section>
+
+    <!-- Recent Trips Table -->
+    <section class="recent-trips">
+      <h3>Recent Trips</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Pickup</th>
+            <th>Drop</th>
+            <th>Status</th>
+            <th>Earnings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>08-10-2025</td>
+            <td>Bangalore</td>
+            <td>Mysore</td>
+            <td>Completed</td>
+            <td>₹ 450</td>
+          </tr>
+          <tr>
+            <td>07-10-2025</td>
+            <td>Mysore</td>
+            <td>Bangalore</td>
+            <td>Completed</td>
+            <td>₹ 500</td>
+          </tr>
+          <tr>
+            <td>06-10-2025</td>
+            <td>Bangalore</td>
+            <td>Coorg</td>
+            <td>Cancelled</td>
+            <td>₹ 0</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

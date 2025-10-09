@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <style>/* Reset & Fonts */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background: #f4f6f8; color: #333; }
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar .logo {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #f9d342;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  padding: 0.5rem 1rem;
+  display: block;
+  font-weight: 500;
+}
+
+.nav-menu li a:hover {
+  color: #f9d342;
+}
+
+/* Dropdown content hidden by default */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 150px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.dropdown-content li a {
+  padding: 10px 15px;
+  color: #333;
+}
+
+.dropdown-content li a:hover {
+  background-color: #f9d342;
+  color: #fff;
+  border-radius: 10px;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Hero Banner */
+.user-hero {
+  background: url('https://images.pexels.com/photos/12887393/pexels-photo-12887393.jpeg') no-repeat center/cover;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color: white;
+  padding: 2rem;
+  border-radius: 0 0 40px 40px;
+  margin-bottom: 30px;
+}
+
+.user-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #f9d342;
+}
+
+.user-hero p {
+  font-size: 1.1rem;
+}
+
+/* Dashboard Cards */
+.dashboard {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.dashboard h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.btn.small {
+  padding: 0.5rem 1.2rem;
+  background: #f9d342;
+  color: #333;
+  border-radius: 25px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.3s;
+}
+
+.btn.small:hover {
+  transform: scale(1.05);
+}
+
+/* Quick Actions */
+.actions {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.actions h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.action {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+.action img {
+  width: 60px;
+  margin-bottom: 15px;
+}
+
+.action h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .user-hero h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-cards {
+    gap: 15px;
+  }
+
+  .action-grid {
+    gap: 20px;
+  }
+}
+
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelMate | Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'userHome/css/style.css' %}">
+</head>
+<body>
+
+  <!-- Navbar -->
+<header class="navbar">
+  <div class="logo" >TravelMate</div>
+  <nav>
+    <ul class="nav-menu">
+      <li class="dropdown">
+        <a href="#" class="dropbtn">Account &#9662;</a>
+        <ul class="dropdown-content">
+          <li><a href="#">Profile</a></li>
+          <li><a href="userLogin">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+  <!-- Hero Banner -->
+  <section class="hero user-hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>Welcome Back, {{ user.username }}!</h1>
+      <p>Your personalized TravelMate dashboard to manage trips and bookings.</p>
+    </div>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="actions">
+    <h2>Quick Actions</h2>
+    <div class="action-grid">
+      <div class="action">
+        <img src="{% static 'userHome/img/map' %}" alt="Destinations">
+        <h3>Destinations</h3>
+        <a href="#" class="btn small">Explore</a>
+      </div>
+      <div class="action">
+        <img src="{% static 'userHome/img/car.png' %}" alt="Rent a Car">
+        <h3>Rent a Car</h3>
+        <a href="#" class="btn small">Book Now</a>
+      </div>
+      <div class="action">
+        <img src="{% static 'userHome/img/driver.png' %}" alt="Hire a Driver">
+        <h3>Hire a Driver</h3>
+        <a href="#" class="btn small">Hire</a>
+      </div>
+      <div class="action">
+        <img src="{% static 'userHome/img/cotraveler.png' %}" alt="Co-Travelers">
+        <h3>Find Co-Travelers</h3>
+        <a href="#" class="btn small">Connect</a>
+      </div>
+    </div>
+  </section>
+    <!-- Dashboard Cards -->
+  <section class="dashboard">
+    <h2>Quick Overview</h2>
+    <div class="dashboard-cards">
+      <div class="card">
+        <h3>Upcoming Trips</h3>
+        <p>3 trips planned</p>
+        <a href="#" class="btn small">View Trips</a>
+      </div>
+      <div class="card">
+        <h3>Co-Travelers</h3>
+        <p>5 people connected</p>
+        <a href="#" class="btn small">Manage</a>
+      </div>
+      <div class="card">
+        <h3>Car Bookings</h3>
+        <p>2 cars reserved</p>
+        <a href="#" class="btn small">View Cars</a>
+      </div>
+      <div class="card">
+        <h3>Driver Hires</h3>
+        <p>1 driver booked</p>
+        <a href="#" class="btn small">View Drivers</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 TravelMate. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

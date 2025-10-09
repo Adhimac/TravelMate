@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Registration | TravelMate</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/driverRegister.css' %}">
+</head>
+<body>
+
+  <div class="container">
+    <div class="register-card">
+      <div class="logo">
+        <img src="{% static 'img/carRent.png' %}" alt="Driver Logo">
+        <h1>TravelMate <br>Rental Partner</h1>
+      </div>
+
+      <h2>Join as a Rental Partner </h2>
+      <p class="subtitle">Fill in your details to start your journey with us</p>
+
+      <form action="rentalPartnerLogin" class="register-form">
+
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Name" >
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Email" >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" >
+          </div>
+
+          <div class="input-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="license">License Number</label>
+            <input type="text" id="license" name="license" placeholder="DL-0420190012345">
+          </div>
+
+          <div class="input-group">
+            <label for="aadhar">Aadhar ID</label>
+            <input type="text" id="aadhar" name="aadhar" placeholder="1234-5678-9012">
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+
+        <div class="links">
+          <p>Already have an account? <a href="rentalPartnerLogin">Login here</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 TravelMate. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

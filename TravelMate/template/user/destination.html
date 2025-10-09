@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelMate | Destinations</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #f4f6f8; color: #333; line-height: 1.6; }
+    a { text-decoration: none; }
+
+   .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar .logo {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #f9d342;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  padding: 0.5rem 1rem;
+  display: block;
+  font-weight: 500;
+}
+
+.nav-menu li a:hover {
+  color: #f9d342;
+}
+
+/* Dropdown content hidden by default */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 150px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.dropdown-content li a {
+  padding: 10px 15px;
+  color: #333;
+}
+
+.dropdown-content li a:hover {
+  background-color: #f9d342;
+  color: #fff;
+  border-radius: 10px;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+    /* Hero Section */
+    .hero {
+      background: url('https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg') no-repeat center/cover;
+      height: 50vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative; color: white;
+    }
+    .hero::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-size: 3rem; color: #f9d342; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+
+    /* Destinations Grid */
+    .destinations { max-width: 1200px; margin: 0 auto; padding: 60px 20px; text-align: center; }
+    .destinations h2 { font-size: 2.5rem; margin-bottom: 40px; color: #333; }
+    .destination-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .destination-card {
+      background: #fff; border-radius: 25px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0; transform: translateY(40px);
+    }
+    .destination-card img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.3s; }
+    .destination-card:hover img { transform: scale(1.05); }
+    .destination-card-content { padding: 20px; text-align: left; }
+    .destination-card-content h3 { font-size: 1.4rem; margin-bottom: 10px; }
+    .destination-card-content p { color: #666; margin-bottom: 15px; font-size: 0.95rem; }
+    .destination-card-content a { display: inline-block; padding: 0.5rem 1rem; background: #f9d342; color: #333; border-radius: 25px; font-weight: 500; transition: transform 0.3s; }
+    .destination-card-content a:hover { transform: scale(1.05); }
+
+    /* Footer */
+    footer { background: #222; color: #fff; text-align: center; padding: 20px 0; margin-top: 50px; }
+
+    /* Responsive */
+    @media(max-width:768px){
+      .hero h1 { font-size: 2rem; }
+      .destination-card img { height: 180px; }
+    }
+ .gallery-section {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.gallery-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.gallery-section .subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease;
+  border-radius: 20px;
+}
+
+.gallery-item:hover .overlay {
+  opacity: 1;
+}
+
+.overlay h3 {
+  color: #f9d342;
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+</style>
+</head>
+<body>
+
+  <!-- Navbar -->
+ <header class="navbar">
+    <div class="logo">TravelMate</div>
+    <nav>
+      <ul>
+        
+         <nav>
+    <ul class="nav-menu">
+      <li><a href="/">Home</a></li>
+         <li><a href="coTraveler">Co-Travelers</a></li>
+      <li class="dropdown">
+        
+        <a href="#" class="dropbtn">Account &#9662;</a>
+        <ul class="dropdown-content">
+          <li><a href="#">Profile</a></li>
+          <li><a href="userLogin">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Explore Destinations</h1>
+      <p>Discover amazing travel spots and plan your next adventure with TravelMate.</p>
+    </div>
+  </section>
+
+  <!-- Destinations Grid -->
+  <section class="destinations">
+    <h2>Popular Destinations</h2>
+    <div class="destination-grid">
+      <div class="destination-card">
+        <img src="{% static 'img/paris.jpg' %}" alt="Paris">
+        <div class="destination-card-content">
+          <h3>Paris, France</h3>
+          <p>The city of love, famous for Eiffel Tower and art museums.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div>
+      <div class="destination-card">
+        <img src="{% static 'img/bali.jpg' %}" alt="Bali">
+        <div class="destination-card-content">
+          <h3>Bali, Indonesia</h3>
+          <p>Beautiful beaches, vibrant culture, and tropical adventures.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div>
+      <div class="destination-card">
+        <img src="{% static 'img/newyork.jpg' %}" alt="New York">
+        <div class="destination-card-content">
+          <h3>New York, USA</h3>
+          <p>The city that never sleeps with iconic landmarks and nightlife.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div>
+      <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div>
+       <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div> <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div> <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div> <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div> <div class="destination-card">
+        <img src="{% static 'img/tokyo.jpg' %}" alt="Tokyo">
+        <div class="destination-card-content">
+          <h3>Tokyo, Japan</h3>
+          <p>Experience modern technology, culture, and culinary delights.</p>
+          <a href="#">Explore</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Gallery Section -->
+<section class="gallery-section">
+  <h2>Explore Our Destinations</h2>
+  <p class="subtitle">Discover beautiful places around the world.</p>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.XP7HtP_9KCa_hpRXUcsenAHaEK?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Destination 1">
+      <div class="overlay">
+        <h3>Paris, France</h3>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://tse3.mm.bing.net/th/id/OIP.3aQYbQxrefg7t6PN3huT3wHaE8?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Destination 2">
+      <div class="overlay">
+        <h3>Bali, Indonesia</h3>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://tse3.mm.bing.net/th/id/OIP.yGuwls3ph9FNnlsjBI43MQHaE8?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Destination 3">
+      <div class="overlay">
+        <h3>Tokyo, Japan</h3>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://th.bing.com/th/id/OIP.am76whzcqTKWA6J5fTdiegHaDU?w=346&h=156&c=7&r=0&o=7&cb=12&pid=1.7&rm=3}" alt="Destination 4">
+      <div class="overlay">
+        <h3>New York, USA</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 TravelMate. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Intersection Observer Animation -->
+  <script>
+    const cards = document.querySelectorAll('.destination-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.3 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+
+</body>
+</html>
