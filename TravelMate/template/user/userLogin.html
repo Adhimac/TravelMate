@@ -1,134 +1,104 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>TravelMate | Login</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelMate | Login</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom CSS -->
-    <style>
-      body {
-      background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1740&q=80") no-repeat center center/cover;
+  <style>
+    body {
       font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      overflow: hidden;
     }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-in-out;
-        }
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: -1;
+    }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .login-card {
+      backdrop-filter: blur(1px);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
 
-        .login-card h2 {
-            color: #fff;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
+    .login-card:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-5px);
+    }
 
-        .form-control {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
+    .input-field:focus {
+      border-color: #ff5a5f;
+      box-shadow: 0 0 8px #ff5a5f70;
+    }
 
-        .btn-primary {
-            background-color: #ff7b00;
-            border: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+    .btn-login {
+      background: linear-gradient(90deg, #23a8e6ff, #ade2f7ff);
+      transition: all 0.3s ease;
+    }
 
-        .btn-primary:hover {
-            background-color: #ff9f43;
-            transform: scale(1.05);
-        }
-
-        .text-link {
-            color: #ffb84d;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .text-link:hover {
-            color: #f99999
-            text-decoration: underline;
-        }
-
-        footer {
-            position: absolute;
-            bottom: 15px;
-            width: 100%;
-            text-align: center;
-            color: #fff;
-            font-size: 0.9rem;
-        }
-    </style>
+    .btn-login:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px #23a8e6ff;
+    }
+  </style>
 </head>
 
-<body>
-    <div class="login-card">
-        <h2><i class="bi bi-person-circle"></i> Login to TravelMate</h2>
-        <form action="userHome">
-           
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required>
-                <label for="email">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                <label for="password">Password</label>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="remember">
-                    <label class="form-check-label text-light" for="remember">Remember me</label>
-                </div>
-                <a href="#" class="text-link">Forgot Password?</a>
-            </div>
-            <button class="btn btn-primary w-100 py-3" type="submit">
-                <i class="bi bi-box-arrow-in-right"></i> Login
-            </button>
-        </form>
-        <p class="text-center text-light mt-3">
-            Don't have an account? <a href="userReg" class="text-link">Register</a>
-        </p>
-    </div>
+<body class="flex items-center justify-center min-h-screen">
+  
+  <!-- 🔥 Background Video -->
+  <video autoplay loop muted playsinline class="bg-video">
+    <source src="{% static 'videos/home-2.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-    <footer>© 2025 TravelMate. Explore Beyond Limits ✈️</footer>
+  <!-- Overlay -->
+  <div class="overlay"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 🌍 Login Card -->
+  <div class="login-card p-10 rounded-2xl shadow-2xl w-96 text-center">
+    <h2 class="text-white text-3xl font-semibold mb-6">Welcome Back!</h2>
+    <p class="text-gray-300 mb-8">Login to continue your journey with <span class="text-blue-400 font-semibold">TravelMate</span></p>
+
+    <form  action="userHome">
+      
+      <input type="text" name="username" placeholder="Username" required
+             class="input-field w-full mb-4 px-4 py-3 rounded-lg bg-white/20 border border-gray-400 text-white placeholder-gray-200 focus:outline-none transition-all">
+      
+      <input type="password" name="password" placeholder="Password" required
+             class="input-field w-full mb-6 px-4 py-3 rounded-lg bg-white/20 border border-gray-400 text-white placeholder-gray-200 focus:outline-none transition-all">
+
+      <button type="submit" class="btn-login w-full py-3 rounded-lg text-white font-semibold">Login</button>
+    </form>
+
+    <p class="text-gray-300 mt-6">
+      Don’t have an account? 
+      <a href="userReg" class="text-blue-400 font-semibold hover:underline">Sign up</a>
+    </p>
+  </div>
+
 </body>
-
 </html>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -12,35 +13,59 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Custom CSS -->
   <style>
+    /* --- Background Video --- */
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    /* --- Dark Overlay --- */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: -1;
+    }
+
+    /* --- General Page Styling --- */
     body {
-      background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1740&q=80") no-repeat center center/cover;
       font-family: 'Poppins', sans-serif;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      color: white;
+      overflow: hidden;
     }
 
+    /* --- Signup Card --- */
     .signup-card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(1px);
       border-radius: 20px;
       padding: 40px;
       width: 90%;
       max-width: 450px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 1s ease-in-out;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      animation: slideUp 0.8s ease-in-out;
+      color: #fff;
     }
 
-    @keyframes fadeIn {
+    @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -48,40 +73,55 @@
     }
 
     .signup-card h2 {
-      color: #fff;
-      font-weight: 600;
       text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
     }
 
     .form-control {
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
+       backdrop-filter: blur(1px);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.12);
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 12px #ff7b00;
+        background: rgba(255, 255, 255, 0.12);
+               backdrop-filter: blur(1px);
+
     }
 
     .btn-primary {
-      background-color: #ff7b00;
+      background: linear-gradient(90deg, #ff7b00, #ffb84d);
       border: none;
+      border-radius: 12px;
       font-weight: 600;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 123, 0, 0.5);
+      color: #fff;
     }
 
     .btn-primary:hover {
-      background-color: #ff9f43;
       transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 180, 77, 0.6);
     }
 
     .text-link {
-      color: #ffb84d;
+      color: #ffd580;
       text-decoration: none;
       font-weight: 500;
     }
 
     .text-link:hover {
-      color: #fff;
       text-decoration: underline;
+      color: #fff;
     }
 
     footer {
@@ -91,12 +131,32 @@
       text-align: center;
       color: #fff;
       font-size: 0.9rem;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Responsiveness --- */
+    @media (max-width: 576px) {
+      .signup-card {
+        padding: 30px 20px;
+      }
+      .signup-card h2 {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="signup-card padding-4">
+  <!-- Background Video -->
+  <video autoplay muted loop class="bg-video">
+    <source src="{% static 'videos/h-4.mp4' %}" type="video/mp4">
+  </video>
+
+  <!-- Dark Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Signup Form -->
+  <div class="signup-card">
     <h2><i class="bi bi-person-plus-fill"></i> Create Your TravelMate Account</h2>
 
     <form>
@@ -127,7 +187,7 @@
     </p>
   </div>
 
-  <footer>© 2025 TravelMate. Start Your Journey Today 🌍</footer>
+ 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
