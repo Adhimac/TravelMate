@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hire a Driver | TravelMate</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent-start: #ff5a5f;
+      --accent-end: #ff9f43;
+    }
+    .btn-accent {
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: 0.25s;
+    }
+    .btn-accent:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-700 to-indigo-400 flex items-center justify-center text-white font-bold">TM</div>
+        <span class="text-lg font-semibold text-[var(--primary)]">TravelMate</span>
+      </a>
+      <nav class="hidden md:flex gap-6">
+        <a href="destination.html" class="hover:text-[var(--primary)]">Destinations</a>
+        <a href="rent.html" class="hover:text-[var(--primary)]">Rent a Car</a>
+        <a href="hire-driver.html" class="text-[var(--primary)] font-semibold border-b-2 border-[var(--primary)]">Hire a Driver</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative h-[40vh] bg-[url('https://source.unsplash.com/1600x900/?car,road,travel')] bg-cover bg-center flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative text-center text-white z-10" data-aos="fade-up">
+      <h1 class="text-4xl md:text-5xl font-extrabold">Hire Your Perfect Driver</h1>
+      <p class="mt-3 text-lg text-white/90">Reliable. Friendly. Professional.</p>
+    </div>
+  </section>
+
+  <!-- HIRE FORM SECTION -->
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-up">
+
+      <!-- DRIVER DETAILS -->
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
+        <img src="https://source.unsplash.com/300x300/?driver,man" alt="Driver" class="w-40 h-40 rounded-xl object-cover shadow-md">
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--primary)]">John Doe</h2>
+          <p class="text-gray-600 mt-1">Experience: 5 years</p>
+          <p class="text-gray-600 mt-1">Vehicle Type: Sedan</p>
+          <p class="text-gray-600 mt-1">Rating: ⭐ 4.8/5</p>
+        </div>
+      </div>
+
+      <!-- HIRE FORM -->
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Booking Details</h3>
+      <form action="#" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+          <input type="text" name="name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter your name" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+          <input type="tel" name="phone" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="+91 98765 43210" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
+          <input type="text" name="pickup" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter pickup point" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Drop Location</label>
+          <input type="text" name="drop" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter destination" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hire Date</label>
+          <input type="date" name="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hire Duration (Days)</label>
+          <input type="number" name="days" min="1" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="e.g. 3" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
+          <textarea name="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Any special instructions..."></textarea>
+        </div>
+
+        <div class="md:col-span-2 text-center mt-4">
+          <button type="submit" class="btn-accent px-8 py-3 text-lg">Confirm Booking</button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[var(--primary)] text-white py-8 mt-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <div class="font-bold text-lg">TravelMate</div>
+        <div class="text-sm text-white/90 mt-1">© 2025 TravelMate. All Rights Reserved.</div>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <a href="#" class="hover:underline">Privacy</a>
+        <a href="#" class="hover:underline">Terms</a>
+        <a href="#" class="hover:underline">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 900, once: true });</script>
+</body>
+</html>
+

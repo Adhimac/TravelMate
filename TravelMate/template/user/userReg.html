@@ -149,7 +149,7 @@
 <body>
   <!-- Background Video -->
   <video autoplay muted loop class="bg-video">
-    <source src="{% static 'videos/h-4.mp4' %}" type="video/mp4">
+    <source src="{% static 'videos/userReg.mp4' %}" type="video/mp4">
   </video>
 
   <!-- Dark Overlay -->
@@ -159,21 +159,26 @@
   <div class="signup-card">
     <h2><i class="bi bi-person-plus-fill"></i> Create Your TravelMate Account</h2>
 
-    <form>
+    <form method="post">
+      {% csrf_token %}
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+        <input type="text" class="form-control" id="name" name="Name" placeholder="Full Name" required>
         <label for="name">Full Name</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" placeholder="Email" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
         <label for="email">Email Address</label>
       </div>
+       <div class="form-floating mb-3">
+        <input type="phone" class="form-control" id="phone" name="phonenumber" placeholder="Phone Number" required>
+        <label for="email">Phone Number</label>
+      </div>
       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         <label for="password">Password</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
+        <input type="password" class="form-control" id="confirm_password" name="confirmpassword" placeholder="Confirm Password" required>
         <label for="confirm_password">Confirm Password</label>
       </div>
 

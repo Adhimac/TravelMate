@@ -2,263 +2,285 @@
 {% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TravelMate | Dashboard</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* Reset & Base */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { color: #fff; position: relative; overflow-x: hidden; }
-
-    /* 🔥 Full-Page Background Video */
-    .bg-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -2;
+    /* --- Base Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
     }
 
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: -1;
+    body {
+      background: linear-gradient(135deg, #0b1222, #1b2735, #2a3d57);
+      color: #fff;
+      overflow-x: hidden;
+      transition: background 1s ease;
+      animation: fadeIn 1s ease-in-out;
     }
 
-    /* Navbar */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Navbar --- */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 3rem;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
-    .navbar .logo {
+    .logo {
       font-weight: 700;
       font-size: 1.8rem;
       color: #ffcc00;
-      text-shadow: 0 0 8px rgba(255,255,255,0.3);
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
     }
 
     .nav-menu {
       list-style: none;
       display: flex;
       align-items: center;
-    }
-
-    .nav-menu li {
-      position: relative;
+      gap: 1rem;
     }
 
     .nav-menu li a {
       text-decoration: none;
       color: #fff;
-      padding: 0.5rem 1rem;
-      display: block;
       font-weight: 500;
-      transition: color 0.3s ease;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
 
     .nav-menu li a:hover {
-      color: #ffcc00;
-    }
-
-    /* Dropdown */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(15px);
-      min-width: 150px;
-      border-radius: 10px;
-      z-index: 1000;
-    }
-
-    .dropdown-content li a {
-      padding: 10px 15px;
-      color: #fff;
-    }
-
-    .dropdown-content li a:hover {
       background: #ffcc00;
-      color: #333;
-      border-radius: 10px;
+      color: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.4);
     }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    /* Hero Banner */
+    /* --- Hero Section --- */
     .user-hero {
-      height: 40vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       text-align: center;
-      flex-direction: column;
-      color: #fff;
-      padding: 2rem;
+      padding: 5rem 2rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
+      animation: fadeIn 1.2s ease-in-out;
     }
 
     .user-hero h1 {
       font-size: 2.8rem;
-      margin-bottom: 0.5rem;
       color: #ffcc00;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+      margin-bottom: 0.8rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     .user-hero p {
       font-size: 1.1rem;
+      color: #dcdcdc;
       max-width: 600px;
-      line-height: 1.6;
+      margin: 0 auto;
     }
 
-    /* Dashboard Cards */
-    .dashboard {
-      padding: 40px 20px;
+    /* --- Quick Actions --- */
+    .actions {
       text-align: center;
+      padding: 60px 20px;
+      animation: fadeIn 1.4s ease-in-out;
+    }
+
+    .actions h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #ffcc00;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .action {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 30px 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action::before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: linear-gradient(120deg, #ffcc00, #ff8800);
+      opacity: 0.1;
+      transition: width 0.5s ease;
+      z-index: 0;
+    }
+
+    .action:hover::before {
+      width: 100%;
+    }
+
+    .action:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+    }
+
+    .action img {
+      width: 70px;
+      margin-bottom: 15px;
+      z-index: 1;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .action:hover img {
+      transform: scale(1.15);
+    }
+
+    .action h3 {
+      color: #ffcc00;
+      margin-bottom: 10px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(90deg, #ffcc00, #ff8800);
+      color: #1b1b1b;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 10px;
+      z-index: 1;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.4);
+    }
+
+    /* --- Dashboard Cards --- */
+    .dashboard {
+      text-align: center;
+      padding: 80px 20px;
+      background: rgba(255,255,255,0.03);
+      animation: fadeIn 1.6s ease-in-out;
     }
 
     .dashboard h2 {
       font-size: 2rem;
-      margin-bottom: 30px;
-      font-weight: 600;
+      color: #ffcc00;
+      margin-bottom: 40px;
     }
 
     .dashboard-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
       max-width: 1100px;
       margin: 0 auto;
     }
 
     .card {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       border-radius: 20px;
-      padding: 25px 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
     }
 
-    .card h3 { font-size: 1.2rem; margin-bottom: 10px; color: #ffcc00; }
-    .card p { color: #eee; margin-bottom: 15px; }
-
-    .btn.small {
-      padding: 0.5rem 1.2rem;
-      background: linear-gradient(90deg, #ffcc00, #ff8800);
-      color: #333;
-      border-radius: 25px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .btn.small:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(255,204,0,0.4);
-    }
-
-    /* Quick Actions */
-    .actions {
-      padding: 50px 20px;
-      text-align: center;
-    }
-
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 30px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .action {
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      padding: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .action:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-    }
-
-    .action img {
-      width: 60px;
-      margin-bottom: 15px;
-      transition: transform 0.3s;
-    }
-
-    .action:hover img {
-      transform: scale(1.1);
-    }
-
-    .action h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
+    .card h3 {
       color: #ffcc00;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
     }
 
-    /* Footer */
+    .card p {
+      color: #dcdcdc;
+      margin-bottom: 15px;
+    }
+
+    /* --- Footer --- */
     footer {
-      background: rgba(0,0,0,0.5);
-      color: #fff;
       text-align: center;
-      padding: 20px 0;
-      margin-top: 50px;
+      padding: 25px 0;
+      font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.5);
+      margin-top: 60px;
+      color: #ccc;
+      letter-spacing: 0.5px;
       backdrop-filter: blur(10px);
     }
 
-    /* Responsive */
+    /* --- Responsive --- */
     @media (max-width: 768px) {
-      .navbar { flex-direction: column; gap: 1rem; }
-      .user-hero h1 { font-size: 2rem; }
+      .navbar {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .user-hero h1 {
+        font-size: 2rem;
+      }
+      .actions h2,
+      .dashboard h2 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- 🔥 Background Video -->
-  <video autoplay muted loop playsinline class="bg-video">
-    <source src="{% static 'videos/h-3.mp4' %}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <div class="overlay"></div>
-
   <!-- Navbar -->
   <header class="navbar">
     <div class="logo">TravelMate</div>
     <nav>
       <ul class="nav-menu">
-        <li class="dropdown">
-          <a href="#" class="dropbtn">Account &#9662;</a>
-          <ul class="dropdown-content">
-            <li><a href="#">Profile</a></li>
-            <li><a href="userLogin">Logout</a></li>
-          </ul>
-        </li>
+        <li><a href="userProfile">Profile</a></li>
+        <li><a href="userLogin">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -266,7 +288,7 @@
   <!-- Hero -->
   <section class="user-hero">
     <h1>Welcome Back, {{ user.username }}!</h1>
-    <p>Your personalized TravelMate dashboard to manage trips and bookings.</p>
+    <p>Manage your trips, bookings, and travel companions — all in one place.</p>
   </section>
 
   <!-- Quick Actions -->
@@ -274,58 +296,58 @@
     <h2>Quick Actions</h2>
     <div class="action-grid">
       <div class="action">
-        <img src="{% static 'userHome/img/map.png' %}" alt="Destinations">
+        <img src="{% static 'userHome/img/map.png' %}" alt="Destinations" />
         <h3>Destinations</h3>
-        <a href="#" class="btn small">Explore</a>
+        <a href="desination" class="btn">Explore</a>
       </div>
       <div class="action">
-        <img src="{% static 'userHome/img/car.png' %}" alt="Rent a Car">
+        <img src="{% static 'userHome/img/car.png' %}" alt="Rent a Car" />
         <h3>Rent a Car</h3>
-        <a href="#" class="btn small">Book Now</a>
+        <a href="rentCar" class="btn">Book Now</a>
       </div>
       <div class="action">
-        <img src="{% static 'userHome/img/driver.png' %}" alt="Hire a Driver">
+        <img src="{% static 'userHome/img/driver.png' %}" alt="Hire a Driver" />
         <h3>Hire a Driver</h3>
-        <a href="#" class="btn small">Hire</a>
+        <a href="hireDriver" class="btn">Hire</a>
       </div>
       <div class="action">
-        <img src="{% static 'userHome/img/cotraveler.png' %}" alt="Co-Travelers">
+        <img src="{% static 'userHome/img/cotraveler.png' %}" alt="Co-Travelers" />
         <h3>Find Co-Travelers</h3>
-        <a href="#" class="btn small">Connect</a>
+        <a href="#" class="btn">Connect</a>
       </div>
     </div>
   </section>
 
-  <!-- Dashboard Cards -->
+  <!-- Dashboard -->
   <section class="dashboard">
     <h2>Quick Overview</h2>
     <div class="dashboard-cards">
       <div class="card">
         <h3>Upcoming Trips</h3>
         <p>3 trips planned</p>
-        <a href="#" class="btn small">View Trips</a>
+        <a href="#" class="btn">View Trips</a>
       </div>
       <div class="card">
         <h3>Co-Travelers</h3>
         <p>5 people connected</p>
-        <a href="#" class="btn small">Manage</a>
+        <a href="#" class="btn">Manage</a>
       </div>
       <div class="card">
         <h3>Car Bookings</h3>
         <p>2 cars reserved</p>
-        <a href="#" class="btn small">View Cars</a>
+        <a href="#" class="btn">View Cars</a>
       </div>
       <div class="card">
         <h3>Driver Hires</h3>
         <p>1 driver booked</p>
-        <a href="#" class="btn small">View Drivers</a>
+        <a href="#" class="btn">View Drivers</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 TravelMate. All Rights Reserved.</p>
+    © 2025 TravelMate. All Rights Reserved.
   </footer>
 </body>
 </html>
