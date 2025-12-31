@@ -2,103 +2,106 @@
 {% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TravelMate | Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelMate Login</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-    }
-
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.55);
-      z-index: -1;
-    }
-
-    .login-card {
-      backdrop-filter: blur(1px);
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .login-card:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-5px);
-    }
-
-    .input-field:focus {
-      border-color: #ff5a5f;
-      box-shadow: 0 0 8px #ff5a5f70;
-    }
-
-    .btn-login {
-      background: linear-gradient(90deg, #23a8e6ff, #ade2f7ff);
-      transition: all 0.3s ease;
-    }
-
-    .btn-login:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 20px #23a8e6ff;
-    }
-  </style>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+    </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen">
-  
-  <!-- 🔥 Background Video -->
-  <video autoplay loop muted playsinline class="bg-video">
-    <source src="{% static 'videos/home-2.mp4' %}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+<body class="w-full h-screen flex items-center justify-center bg-gray-200">
 
-  <!-- Overlay -->
-  <div class="overlay"></div>
+    <!-- Background -->
+    <div class="absolute inset-0">
+        <img src="{% static 'img/login.jpg' %}" 
+             class="w-full h-full object-cover" alt="Travel Background" />
+        <div class="absolute inset-0 bg-black/30"></div>
+    </div>
 
-  <!-- 🌍 Login Card -->
-  <div class="login-card p-10 rounded-2xl shadow-2xl w-96 text-center">
-    <h2 class="text-white text-3xl font-semibold mb-6">Welcome Back!</h2>
-    <p class="text-gray-300 mb-8">Login to continue your journey with <span class="text-blue-400 font-semibold">TravelMate</span></p>
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-5xl w-full mx-4 md:mx-auto grid md:grid-cols-2 gap-8">
 
-    <form  action="userHome">
-      
-      <input type="text" name="username" placeholder="Username" required
-             class="input-field w-full mb-4 px-4 py-3 rounded-lg bg-white/20 border border-gray-400 text-white placeholder-gray-200 focus:outline-none transition-all">
-      
-      <input type="password" name="password" placeholder="Password" required
-             class="input-field w-full mb-6 px-4 py-3 rounded-lg bg-white/20 border border-gray-400 text-white placeholder-gray-200 focus:outline-none transition-all">
+        <!-- Left Side Text -->
+        <div class="text-white flex flex-col justify-center p-6 md:p-12">
+            <h1 class="text-5xl font-extrabold leading-tight drop-shadow-lg">EXPLORE</h1>
+            <h1 class="text-5xl font-extrabold leading-tight drop-shadow-lg">TOGETHER</h1>
 
-      <button type="submit" class="btn-login w-full py-3 rounded-lg text-white font-semibold">Login</button>
-    </form>
+            <p class="mt-6 text-gray-200 max-w-sm">
+               Where every journey becomes a shared experience.
+Discover new places, connect with travelers, and make every trip unforgettable with TravelMate.
+            </p>
+        </div>
 
-    <p class="text-gray-300 mt-6">
-      Don’t have an account? 
-      <a href="userReg" class="text-blue-400 font-semibold hover:underline">Sign up</a>
-    </p>
-  </div>
+        <!-- Login Card -->
+        <div class="glass-card p-8 shadow-xl md:p-10">
+
+            <h2 class="text-2xl font-semibold text-white mb-6">Sign In</h2>
+
+            <form method="POST" action="/userLogin">
+                {% csrf_token %}
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="text-white text-sm">Email</label>
+                    <input type="email" name="email"
+                           placeholder="Enter your email"
+                           required
+                           class="w-full mt-1 px-4 py-2 bg-white/90 rounded-lg outline-none" />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="text-white text-sm">Password</label>
+                    <input type="password" name="password"
+                           placeholder="Enter your password" required
+                           class="w-full mt-1 px-4 py-2 bg-white/90 rounded-lg outline-none" />
+                </div>
+
+                <div class="text-right text-sm">
+                    <a href="#" class="text-white hover:underline">Forgot password?</a>
+                </div>
+
+                <!-- Sign In Button -->
+                <button type="submit"
+                        class="w-full mt-6 py-2 bg-blue-600 rounded-lg text-white font-semibold hover:bg-blue-700 transition">
+                    SIGN IN
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center my-4">
+                    <div class="flex-grow h-px bg-white/40"></div>
+                    <span class="mx-3 text-white/70 text-sm">or</span>
+                    <div class="flex-grow h-px bg-white/40"></div>
+                </div>
+
+                <!-- Google Button -->
+                <button type="button"
+                        class="w-full py-2 bg-white rounded-lg text-gray-700 font-medium flex items-center justify-center gap-2 hover:bg-gray-100 transition">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5" />
+                    Sign in with Google
+                </button>
+
+                <!-- Signup -->
+                <p class="text-center text-white/90 text-sm mt-4">
+                    Are you new?
+                    <a href="/userReg" class="font-semibold underline">Create an Account</a>
+                </p>
+
+            </form>
+        </div>
+
+    </div>
 
 </body>
 </html>

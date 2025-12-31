@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Driver Profile | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Profile Container -->
+<div class="max-w-4xl mx-auto p-6">
+
+  <!-- Header -->
+  <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col md:flex-row items-center gap-6">
+    
+    <!-- Profile Image -->
+    <div class="relative">
+      <img src="https://i.pravatar.cc/200?img=12"
+           class="w-36 h-36 rounded-2xl object-cover shadow-lg"
+           alt="Driver Profile">
+      <span class="absolute bottom-2 right-2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></span>
+    </div>
+
+    <!-- Driver Info -->
+    <div class="flex-1 text-center md:text-left">
+      <h2 class="text-2xl font-bold text-gray-800">Arjun Kumar</h2>
+      <p class="text-gray-500">Professional Driver • Chennai</p>
+
+      <div class="mt-3 flex flex-wrap gap-3 justify-center md:justify-start">
+        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-700">5+ Years Experience</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">Verified</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-700">⭐ 4.8 Rating</span>
+      </div>
+    </div>
+
+    <!-- Edit Button -->
+    <div>
+      <button class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition">
+        Edit Profile
+      </button>
+    </div>
+  </div>
+
+  <!-- Details Section -->
+  <div class="grid md:grid-cols-2 gap-6 mt-8">
+
+    <!-- Personal Details -->
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Personal Details</h3>
+
+      <div class="space-y-3 text-gray-600">
+        <p><strong>Phone:</strong> +91 98765 43210</p>
+        <p><strong>Email:</strong> arjun.driver@gmail.com</p>
+        <p><strong>Age:</strong> 32</p>
+        <p><strong>Gender:</strong> Male</p>
+        <p><strong>Address:</strong> Velachery, Chennai</p>
+      </div>
+    </div>
+
+    <!-- Driving Details -->
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Driving Details</h3>
+
+      <div class="space-y-3 text-gray-600">
+        <p><strong>License No:</strong> TN09 2023 004578</p>
+        <p><strong>Vehicle Type:</strong> Sedan, SUV</p>
+        <p><strong>Languages:</strong> Tamil, English, Hindi</p>
+        <p><strong>Availability:</strong> Full-time</p>
+        <p><strong>Trips Completed:</strong> 482</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bio -->
+  <div class="bg-white rounded-2xl shadow p-6 mt-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-3">About Driver</h3>
+    <p class="text-gray-600 leading-relaxed">
+      Experienced and reliable driver with excellent knowledge of city routes.
+      Known for safe driving, punctuality, and friendly behavior.
+      Customer satisfaction is always my top priority.
+    </p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex flex-wrap gap-4 justify-center mt-8">
+    <button class="px-6 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-md">
+      Contact Driver
+    </button>
+    <button class="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-md">
+      Deactivate Profile
+    </button>
+  </div>
+
+</div>
+
+</body>
+</html>

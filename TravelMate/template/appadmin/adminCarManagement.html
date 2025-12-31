@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cars | Admin - TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-semibold text-indigo-600">TravelMate Admin</h1>
+    <a href="{% url 'adminHome' %}" class="text-sm text-indigo-600 hover:underline">
+      Back to Dashboard
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="p-6 max-w-7xl mx-auto">
+
+    <h2 class="text-2xl font-semibold mb-6">Registered Cars</h2>
+
+    <div class="bg-white rounded-xl shadow overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead class="bg-indigo-50 text-indigo-700">
+          <tr>
+            <th class="px-4 py-3 text-left">#</th>
+            <th class="px-4 py-3 text-left">Car</th>
+            <th class="px-4 py-3 text-left">Model</th>
+            <th class="px-4 py-3 text-left">Type</th>
+            <th class="px-4 py-3 text-left">Fuel</th>
+            <th class="px-4 py-3 text-left">Seats</th>
+            <th class="px-4 py-3 text-left">Price / Day</th>
+            <th class="px-4 py-3 text-left">Owner</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            <th class="px-4 py-3 text-left">Added On</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y">
+          {% for car in cars %}
+          <tr class="hover:bg-gray-50 transition">
+
+            <td class="px-4 py-3">{{ forloop.counter }}</td>
+
+            <!-- Car Image -->
+            <td class="px-4 py-3">
+              {% if car.vehicleImage %}
+                <img
+                  src="{{ car.vehicleImage.url }}"
+                  alt="{{ car.vehicleName }}"
+                  class="w-20 h-14 rounded-lg object-cover border border-indigo-200 shadow-sm hover:scale-105 transition"
+                >
+              {% else %}
+                <div class="w-20 h-14 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 text-xs font-semibold">
+                  No Image
+                </div>
+              {% endif %}
+            </td>
+
+            <td class="px-4 py-3 font-medium">
+              {{ car.vehicleName }}<br>
+              <span class="text-xs text-gray-500">{{ car.carNumber }}</span>
+            </td>
+
+            <td class="px-4 py-3">{{ car.vehicleType }}</td>
+            <td class="px-4 py-3">{{ car.fuelType }}</td>
+            <td class="px-4 py-3">{{ car.seatingCapacity }}</td>
+            <td class="px-4 py-3 font-semibold text-indigo-600">
+              ₹ {{ car.rentPerDay }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ car.partner }}<br>
+              <span class="text-xs text-gray-500">{{ car.partner.mobileNumber }}</span>
+            </td>
+
+            <!-- Status -->
+            <td class="px-4 py-3">
+              {% if car.availabilityStatus == "approved" %}
+                <span class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">Approved</span>
+              {% elif car.status == "pending" %}
+                <span class="px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">Pending</span>
+              {% else %}
+                <span class="px-3 py-1 rounded-full text-xs bg-red-100 text-red-700">Rejected</span>
+              {% endif %}
+            </td>
+
+            <td class="px-4 py-3 text-gray-500">
+              {{ car.created_at|date:"d M Y" }}
+            </td>
+
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="10" class="text-center py-6 text-gray-500">
+              No cars added yet
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</body>
+</html>

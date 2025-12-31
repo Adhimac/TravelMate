@@ -2,61 +2,92 @@
 {% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Driver Login | TravelMate</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Driver Login – TravelMate</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{% static 'css/driverLogin.css' %}">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+    </style>
 </head>
-<body>
 
-  <div class="container">
-    <div class="login-card">
-      <div class="logo">
-        <img src="{% static 'img/driver.png' %}" alt="Driver Logo">
-        <h1>TravelMate Driver</h1>
-      </div>
+<body class="w-full h-screen flex items-center justify-center bg-gray-200">
 
-      <h2>Welcome Back </h2>
-      <p class="subtitle">Login to manage your trips and earnings</p>
-
-      <form action="driverHome" class="login-form">
-      
-        <div class="input-group">
-       
-          <input type="email" id="email" name="email" placeholder="Email" required>
-        </div>
-
-        <div class="input-group">
-          <div class="password-box">
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
-          </div>
-        </div>
-
-        <button type="submit" class="btn">Login</button>
-
-        <div class="links">
-          <a href="#">Forgot Password?</a>
-          <p>New Driver? <a href="driverRegister">Register Now</a></p>
-        </div>
-      </form>
+    <!-- Background -->
+    <div class="absolute inset-0">
+        <img src="{% static 'img/login.jpg' %}" 
+             class="w-full h-full object-cover" alt="Driver Login Background" />
+        <div class="absolute inset-0 bg-black/30"></div>
     </div>
-  </div>
 
-  <footer>
-    <p>© 2025 TravelMate. All Rights Reserved.</p>
-  </footer>
-{% comment %} 
-  <script>
-    function togglePassword() {
-      const input = document.getElementById('password');
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-  </script> {% endcomment %}
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-5xl w-full mx-4 md:mx-auto grid md:grid-cols-2 gap-8">
+
+        <!-- Left Side Text -->
+        <div class="text-white flex flex-col justify-center p-6 md:p-12">
+            <h1 class="text-5xl font-extrabold leading-tight drop-shadow-lg">DRIVE</h1>
+            <h1 class="text-5xl font-extrabold leading-tight drop-shadow-lg">WITH US</h1>
+
+            <p class="mt-6 text-gray-200 max-w-sm">
+                Join TravelMate as a trusted driver.  
+                Connect with travelers, provide safe rides, and be part of every journey.
+            </p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="glass-card p-8 shadow-xl md:p-10">
+
+            <h2 class="text-2xl font-semibold text-white mb-6">Driver Login</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="text-white text-sm">Email</label>
+                    <input type="email" name="email"
+                           placeholder="Enter your email"
+                           required
+                           class="w-full mt-1 px-4 py-2 bg-white/90 rounded-lg outline-none" />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="text-white text-sm">Password</label>
+                    <input type="password" name="password"
+                           placeholder="Enter your password" required
+                           class="w-full mt-1 px-4 py-2 bg-white/90 rounded-lg outline-none" />
+                </div>
+
+                <div class="text-right text-sm">
+                    <a href="#" class="text-white hover:underline">Forgot password?</a>
+                </div>
+
+                <!-- Sign In Button -->
+                <button type="submit"
+                        class="w-full mt-6 py-2 bg-blue-600 rounded-lg text-white font-semibold hover:bg-blue-700 transition">
+                    LOGIN
+                </button>
+
+                <!-- Signup -->
+                <p class="text-center text-white/90 text-sm mt-4">
+                    New Driver?
+                    <a href="driverRegister" class="font-semibold underline">Register Now</a>
+                </p>
+
+            </form>
+        </div>
+
+    </div>
+
 </body>
 </html>

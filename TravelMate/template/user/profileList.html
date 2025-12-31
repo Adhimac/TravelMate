@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Travelers | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --primary:#1e3a8a;
+      --accent:#ff5a5f;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+    }
+    .btn-connected{
+      background:#dcfce7;
+      color:#15803d;
+      cursor:not-allowed;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-white border-b sticky top-0 z-30">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-[var(--primary)]">
+      Find Co-Travelers
+    </h1>
+    <a href="/" class="text-sm text-gray-600 hover:text-[var(--primary)]">
+      ← Back to Home
+    </a>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+  <!-- FILTER SIDEBAR -->
+  <aside class="bg-white rounded-2xl p-6 border h-fit sticky top-24">
+    <h3 class="font-semibold text-lg mb-4">Filters</h3>
+
+    <form method="get" class="space-y-4">
+
+      <input type="text"
+             name="q"
+             value="{{ request.GET.q }}"
+             placeholder="Search name or interest"
+             class="w-full border rounded-lg px-3 py-2">
+
+      <select name="destination" class="w-full border rounded-lg px-3 py-2">
+        <option value="">Any Destination</option>
+        <option value="Goa" {% if request.GET.destination == "Goa" %}selected{% endif %}>Goa</option>
+        <option value="Manali" {% if request.GET.destination == "Manali" %}selected{% endif %}>Manali</option>
+        <option value="Kerala" {% if request.GET.destination == "Kerala" %}selected{% endif %}>Kerala</option>
+      </select>
+
+      <select name="interest" class="w-full border rounded-lg px-3 py-2">
+        <option value="">Any Interest</option>
+        <option value="Backpacking" {% if request.GET.interest == "Backpacking" %}selected{% endif %}>Backpacking</option>
+        <option value="Road Trip" {% if request.GET.interest == "Road Trip" %}selected{% endif %}>Road Trip</option>
+        <option value="Beach" {% if request.GET.interest == "Beach" %}selected{% endif %}>Beach</option>
+      </select>
+
+      <select name="gender" class="w-full border rounded-lg px-3 py-2">
+        <option value="">Any Gender</option>
+        <option value="Male" {% if request.GET.gender == "Male" %}selected{% endif %}>Male</option>
+        <option value="Female" {% if request.GET.gender == "Female" %}selected{% endif %}>Female</option>
+      </select>
+
+      <button type="submit"
+              class="w-full btn-primary py-2 rounded-lg font-semibold">
+        Apply Filters
+      </button>
+
+      <a href="{% url 'profileList' %}"
+         class="block text-center text-sm text-gray-500 hover:text-gray-700">
+        Reset filters
+      </a>
+
+    </form>
+  </aside>
+
+  <!-- RESULTS -->
+  <main class="lg:col-span-3 space-y-5">
+
+    <p class="text-sm text-gray-600">
+      Showing <strong>{{ travelers|length }}</strong> travelers
+    </p>
+
+    {% for traveler in travelers %}
+    <article class="bg-white border rounded-2xl p-6 hover:shadow-lg transition">
+
+      <div class="flex gap-6">
+
+        <!-- IMAGE -->
+        <img src="{{ traveler.photo.url|default:'https://i.pravatar.cc/150' }}"
+             class="w-28 h-28 rounded-xl object-cover">
+
+        <!-- CONTENT -->
+        <div class="flex-1">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-semibold">
+                {{ traveler.Name }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                {{ traveler.age }} • {{ traveler.destination }}
+              </p>
+            </div>
+
+            <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
+              Verified
+            </span>
+          </div>
+
+          <p class="mt-3 text-gray-600 text-sm leading-relaxed">
+            {{ traveler.bio|truncatewords:28 }}
+          </p>
+
+          <!-- TAGS -->
+          <div class="mt-3 flex flex-wrap gap-2">
+            {% for tag in traveler.interests_list %}
+              <span class="text-xs bg-gray-100 px-3 py-1 rounded-full">
+                {{ tag }}
+              </span>
+            {% endfor %}
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="mt-4 flex justify-between items-center">
+            <span class="text-xs text-gray-500">
+              Last active {{ traveler.last_active|timesince }} ago
+            </span>
+
+            <div class="flex gap-2">
+              <a href="{% url 'profileDetail' traveler.id %}"
+                 class="px-4 py-2 rounded-lg border text-sm font-medium">
+                View Profile
+              </a>
+
+           {% if traveler.connected %}
+  <button
+    class="px-4 py-2 rounded-lg btn-connected text-sm font-semibold"
+    disabled>
+    Connected
+  </button>
+{% else %}
+  <a href="{% url 'connect_traveler' traveler.id %}"
+     class="px-4 py-2 rounded-lg btn-primary text-sm font-medium">
+    Connect
+  </a>
+{% endif %}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </article>
+    {% empty %}
+      <p class="text-center text-gray-500">
+        No travelers found.
+      </p>
+    {% endfor %}
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-6 text-sm text-gray-500 flex justify-between">
+    <span>© 2025 TravelMate</span>
+    <span>Travel smarter, together</span>
+  </div>
+</footer>
+
+</body>
+</html>

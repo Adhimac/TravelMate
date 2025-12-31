@@ -6,135 +6,89 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>TravelMate — Explore the World</title>
 
-  <!-- Tailwind CDN (production-ready utilities) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- AOS (scroll animations) -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-  <!-- Swiper (carousels) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
 
   <style>
-    /* Small custom styles and overrides */
     :root{
       --primary:#1e3a8a;
       --accent-start:#ff5a5f;
       --accent-end:#ff9f43;
-      --muted:#6b7280;
       --card-shadow: 0 12px 30px rgba(18, 38, 71, 0.08);
     }
-    /* Hero video sizing */
     .hero-video{
-      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:translateZ(0);
-      filter: contrast(.95) saturate(1.05) brightness(.7);
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+      filter: brightness(.75);
     }
-    /* gradient overlay */
     .hero-overlay{
       position:absolute; inset:0;
-      background: linear-gradient(135deg, rgba(30,58,138,0.35) 0%, rgba(255,90,95,0.10) 60%, rgba(255,159,67,0.06) 100%);
-      mix-blend-mode: overlay;
-      pointer-events:none;
+      background: linear-gradient(135deg, rgba(30,58,138,0.4) 0%, rgba(255,90,95,0.15) 60%);
     }
-    /* floating search card shadow and blur */
-    .search-card{ background: rgba(255,255,255,0.96); backdrop-filter: blur(6px); box-shadow: var(--card-shadow); border-radius:14px; }
-    /* fancy gradient button */
     .btn-accent{
-      background: linear-gradient(90deg,var(--accent-start), var(--accent-end));
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
       color:white;
-      box-shadow: 0 8px 24px rgba(255,90,95,0.18);
+      box-shadow:0 8px 24px rgba(255,90,95,0.18);
     }
-    /* particle canvas sits behind content but above video for subtle motion */
-    #particle-canvas{ position:absolute; inset:0; z-index:6; pointer-events:none; mix-blend-mode:screen; opacity:0.55; }
-    /* rounded cards images */
-    .card-img { border-radius:12px; height:220px; object-fit:cover; width:100%; }
-    /* testimonial quote style */
-    .quote {
-      border-radius:12px; background:white; box-shadow: var(--card-shadow); padding:1.25rem;
-    }
-    /* small responsive tweaks */
-    @media (max-width:640px){
-      .hero-title { font-size:1.6rem !important; }
-      .hero-sub { font-size:0.95rem !important; }
-      .card-img { height:160px; }
-    }
+    .card-img{border-radius:12px; height:220px; width:100%; object-fit:cover;}
   </style>
 </head>
+
 <body class="antialiased bg-gray-50 text-gray-800">
 
-  <!-- PARTICLE CANVAS -->
-  <canvas id="particle-canvas"></canvas>
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 bg-white/60 backdrop-blur-md border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
 
-  <!-- NAVBAR -->
-  <header class="sticky top-0 z-50 bg-white/60 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-16">
-        <a href="#" class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-700 to-indigo-400 flex items-center justify-center text-white font-bold">TM</div>
-          <div class="text-lg font-semibold text-[var(--primary)]">TravelMate</div>
-        </a>
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500  to-red-300 flex items-center justify-center text-white font-bold">TM</div>
+        <div class="text-lg font-semibold text-[var(--primary)]">TravelMate</div>
+      </a>
 
-        <nav class="hidden md:flex items-center gap-6">
-          <a class="text-gray-700 hover:text-[var(--primary)] transition" href="/destination">Destinations</a>
-          <a class="text-gray-700 hover:text-[var(--primary)] transition" href="/coTraveler">Co-Travelers</a>
-          <a class="text-gray-700 hover:text-[var(--primary)] transition" href="/rent">Rent a Car</a>
-          <a class="text-gray-700 hover:text-[var(--primary)] transition" href="/driver">Hire a Driver</a>
-          <a class="text-gray-700 hover:text-[var(--primary)] transition" href="/about">About</a>
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="/destination" class="hover:text-[var(--primary)]">Destinations</a>
+        <a href="/coTraveler" class="hover:text-[var(--primary)] text-dark">Travel-Tribes</a>
+        <a href="/rentCar" class="hover:text-[var(--primary)]">Rent a Car</a>
+        <a href="/hireDriver" class="hover:text-[var(--primary)]">Hire a Driver</a>
+        <a href="/about" class="hover:text-[var(--primary)]">About</a>
+         <a href="appadmin/adminLogin" class="hover:text-[var(--primary)]">Admin Login</a>
+      </nav>
 
-          <!-- Partner dropdown -->
-          <div class="relative">
-            <button id="partnerBtn" class="px-3 py-1 rounded-md text-sm border border-gray-200 hover:shadow-sm transition flex items-center gap-2">
-              Be a Partner ▾
-            </button>
-            <div id="partnerMenu" class="hidden absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-              <a href="/partner/driverLogin" class="block px-4 py-2 text-sm hover:bg-gray-50">Driver Partner</a>
-              <a href="/partner/rentalPartnerLogin" class="block px-4 py-2 text-sm hover:bg-gray-50">Rental Partner</a>
-            </div>
-          </div>
-        </nav>
+      <div class="flex items-center gap-3">
+        <a href="/userLogin" class="hidden md:inline-block px-4 py-2 text-sm">Login</a>
+        <a href="/userReg" class="px-4 py-2 rounded-md text-sm font-semibold btn-accent">Get Started</a>
 
-        <div class="flex items-center gap-3">
-          <a href="/userLogin" class="hidden md:inline-block px-4 py-2 rounded-md border border-transparent text-sm font-medium bg-white hover:bg-gray-50 text-[var(--primary)]">Login</a>
-          <a href="/userLogin" class="md:hidden text-[var(--primary)]">Login</a>
-          <a href="userReg" class="ml-2 inline-flex items-center px-4 py-2 text-sm font-semibold rounded-md btn-accent hover:opacity-95 transition">Get Started</a>
-          <!-- mobile menu button -->
-          <button id="menuToggle" class="md:hidden ml-2 p-2 rounded-md hover:bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
-          </button>
-        </div>
+        <button id="menuToggle" class="md:hidden p-2 rounded-md hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+          </svg>
+        </button>
       </div>
+
     </div>
+  </div>
 
-    <!-- mobile nav (hidden by default) -->
-    <div id="mobileNav" class="md:hidden hidden border-t border-gray-100 bg-white">
-      <div class="px-4 py-3 space-y-2">
-        <a class="block text-gray-700" href="/destination">Destinations</a>
-        <a class="block text-gray-700" href="/coTraveler">Co-Travelers</a>
-        <a class="block text-gray-700" href="/rent">Rent a Car</a>
-        <a class="block text-gray-700" href="/driver">Hire a Driver</a>
-        <a class="block text-gray-700" href="/about">About</a>
-        <a class="block text-gray-700" href="/partner/driverLogin">Driver Partner</a>
-        <a class="block text-gray-700" href="/partner/rentalPartnerLogin">Rental Partner</a>
-      </div>
-    </div>
-  </header>
+  <!-- MOBILE NAV -->
+  <div id="mobileNav" class="hidden md:hidden border-t bg-white px-4 py-3 space-y-2">
+    <a href="/destination" class="block">Destinations</a>
+    <a href="/coTraveler" class="block">Travel-Trirbes</a>
+    <a href="/rent" class="block">Rent a Car</a>
+    <a href="/driver" class="block">Hire a Driver</a>
+    <a href="/about" class="block">About</a>
+  </div>
+</header>
 
-  <!-- HERO -->
-  <main>
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-      <!-- video: replace with your anime mp4 at static/videos/anime_intro.mp4 -->
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="{% static 'videos/home-2.mp4' %}" type="video/mp4">
-        <!-- fallback image if video not found -->
-      </video>
+<!-- HERO WITH VIDEO (UNCHANGED) -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
 
-      <!-- fallback background image (in case video fails) -->
-      {% comment %} <div class="absolute inset-0 bg-[url()] bg-cover bg-center hidden"></div> {% endcomment %}
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="{% static 'videos/home-2.mp4' %}" type="video/mp4">
+  </video>
 
-      <div class="hero-overlay"></div>
+  <div class="hero-overlay"></div>
 
-      <!-- content layer -->
-      <div class="relative z-40 max-w-7xl mx-auto px-6 sm:px-8">
+  <div class="relative z-40 max-w-7xl mx-auto px-6 sm:px-8">
         <div class="grid grid-cols-12 gap-6 items-center">
           <div class="col-span-12 lg:col-span-7 text-left">
             <h1 class="hero-title text-white font-extrabold text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-lg">
@@ -158,310 +112,184 @@
          
         </div>
       </div>
-    </section>
+</section>
 
-    <!-- FEATURES -->
-    <section id="features" class="max-w-7xl mx-auto px-6 sm:px-8 py-16">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-extrabold text-[var(--primary)]" data-aos="fade-up">How TravelMate helps you</h2>
-        <p class="mt-3 text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="80">All-in-one travel platform: discover, match, and book — built for convenience, safety and community.</p>
+<!-- FEATURES -->
+<section class="max-w-7xl mx-auto px-6 py-16">
+  <h2 class="text-center text-3xl font-extrabold text-[var(--primary)]">How TravelMate Helps You</h2>
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-12">
+
+    <div class="p-6 rounded-xl bg-white shadow">
+      <h3 class="font-semibold text-lg text-[var(--primary)]">Top Destinations</h3>
+      <p class="mt-2 text-gray-600 text-sm">Popular curated travel spots.</p>
+    </div>
+
+    <div class="p-6 rounded-xl bg-white shadow">
+      <h3 class="font-semibold text-lg text-[var(--primary)]">Find Co-Travelers</h3>
+      <p class="mt-2 text-gray-600 text-sm">Meet like-minded travel buddies.</p>
+    </div>
+
+    <div class="p-6 rounded-xl bg-white shadow">
+      <h3 class="font-semibold text-lg text-[var(--primary)]">Rent a Car</h3>
+      <p class="mt-2 text-gray-600 text-sm">Affordable verified cars.</p>
+    </div>
+
+    <div class="p-6 rounded-xl bg-white shadow">
+      <h3 class="font-semibold text-lg text-[var(--primary)]">Hire a Driver</h3>
+      <p class="mt-2 text-gray-600 text-sm">Trained and verified drivers.</p>
+    </div>
+
+  </div>
+</section>
+<!-- CO-TRAVELLER SECTION -->
+<section id="coTravelerSection" class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <h2 class="text-center text-3xl font-extrabold text-[var(--primary)]">
+      Travel Together — Meet Your Co-Travellers
+    </h2>
+
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mt-4 leading-relaxed">
+      TravelMate’s Co-Traveller feature helps you find like-minded people who share 
+      similar destinations, interests, travel habits, and personality. Whether you  
+      want safety, companionship, cost-sharing, or just someone to explore new places  
+      with — Co-Travellers make every journey memorable.
+    </p>
+
+    <!-- 3 Cards -->
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 mt-14">
+
+      <!-- Card 1 -->
+      <div class="p-8 bg-white shadow rounded-2xl border hover:shadow-xl transition-all duration-300">
+        <h3 class="text-xl font-semibold text-[var(--primary)]">Verified Traveler Profiles</h3>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Every traveler on our platform is identity-verified and community-rated.
+          Travel confidently knowing your co-traveller is trustworthy and safe.
+        </p>
       </div>
 
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="feature-card p-6 bg-white rounded-xl" data-aos="zoom-in">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-400 flex items-center justify-center text-white text-xl font-bold">D</div>
-            <div>
-              <h3 class="font-semibold text-lg text-[var(--primary)]">Top Destinations</h3>
-              <p class="mt-1 text-gray-600 text-sm">Personalized picks and trending spots—hand-curated lists for every traveler.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="feature-card p-6 bg-white rounded-xl" data-aos="zoom-in" data-aos-delay="80">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-pink-500 to-orange-400 flex items-center justify-center text-white text-xl font-bold">C</div>
-            <div>
-              <h3 class="font-semibold text-lg text-[var(--primary)]">Find Co-Travelers</h3>
-              <p class="mt-1 text-gray-600 text-sm">Match with like-minded people for shared experiences and lower costs.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="feature-card p-6 bg-white rounded-xl" data-aos="zoom-in" data-aos-delay="160">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-emerald-500 to-lime-400 flex items-center justify-center text-white text-xl font-bold"></div>
-            <div>
-              <h3 class="font-semibold text-lg text-[var(--primary)]">Rent a Car</h3>
-              <p class="mt-1 text-gray-600 text-sm">Wide range of vehicles, transparent pricing, and verified partners.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="feature-card p-6 bg-white rounded-xl" data-aos="zoom-in" data-aos-delay="240">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white text-xl font-bold">H</div>
-            <div>
-              <h3 class="font-semibold text-lg text-[var(--primary)]">Hire a Driver</h3>
-              <p class="mt-1 text-gray-600 text-sm">Background-checked drivers, flexible bookings and 24/7 support.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- POPULAR DESTINATIONS (Swiper) -->
-    <section class="bg-white py-12">
-      <div class="max-w-7xl mx-auto px-6 sm:px-8">
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-2xl font-extrabold text-[var(--primary)]" data-aos="fade-right">Popular Destinations</h3>
-          <a href="/destination" class="text-sm text-gray-600 hover:underline">See all</a>
-        </div>
-
-        <div class="swiper mySwiperDest py-4">
-          <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide p-2">
-              <div class="destination-card rounded-xl overflow-hidden bg-gray-100" data-aos="zoom-in">
-                <img src="https://source.unsplash.com/800x600/?paris" alt="Paris" class="card-img">
-                <div class="p-4 flex items-center justify-between">
-                  <div>
-                    <h4 class="text-lg font-semibold">Paris</h4>
-                    <p class="text-sm text-gray-500">From ₹15,999</p>
-                  </div>
-                  <a class="inline-flex items-center gap-2 px-3 py-2 rounded-md btn-accent text-white" href="#">Book</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="swiper-slide p-2">
-              <div class="destination-card rounded-xl overflow-hidden bg-gray-100" data-aos="zoom-in" data-aos-delay="80">
-                <img src="https://source.unsplash.com/800x600/?newyork" alt="New York" class="card-img">
-                <div class="p-4 flex items-center justify-between">
-                  <div>
-                    <h4 class="text-lg font-semibold">New York</h4>
-                    <p class="text-sm text-gray-500">From ₹18,499</p>
-                  </div>
-                  <a class="inline-flex items-center gap-2 px-3 py-2 rounded-md btn-accent text-white" href="#">Book</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="swiper-slide p-2">
-              <div class="destination-card rounded-xl overflow-hidden bg-gray-100" data-aos="zoom-in" data-aos-delay="160">
-                <img src="https://source.unsplash.com/800x600/?tokyo" alt="Tokyo" class="card-img">
-                <div class="p-4 flex items-center justify-between">
-                  <div>
-                    <h4 class="text-lg font-semibold">Tokyo</h4>
-                    <p class="text-sm text-gray-500">From ₹22,800</p>
-                  </div>
-                  <a class="inline-flex items-center gap-2 px-3 py-2 rounded-md btn-accent text-white" href="#">Book</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="swiper-slide p-2">
-              <div class="destination-card rounded-xl overflow-hidden bg-gray-100" data-aos="zoom-in" data-aos-delay="240">
-                <img src="https://source.unsplash.com/800x600/?dubai" alt="Dubai" class="card-img">
-                <div class="p-4 flex items-center justify-between">
-                  <div>
-                    <h4 class="text-lg font-semibold">Dubai</h4>
-                    <p class="text-sm text-gray-500">From ₹13,499</p>
-                  </div>
-                  <a class="inline-flex items-center gap-2 px-3 py-2 rounded-md btn-accent text-white" href="#">Book</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- pagination & arrows -->
-          <div class="swiper-pagination mt-6"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="max-w-7xl mx-auto px-6 sm:px-8 py-16">
-      <div class="text-center mb-8">
-        <h3 class="text-2xl font-extrabold text-[var(--primary)]" data-aos="fade-up">What Travelers Say</h3>
-        <p class="mt-2 text-gray-600" data-aos="fade-up" data-aos-delay="60">Real reviews from real travelers</p>
+      <!-- Card 2 -->
+      <div class="p-8 bg-white shadow rounded-2xl border hover:shadow-xl transition-all duration-300">
+        <h3 class="text-xl font-semibold text-[var(--primary)]">Match by Interests & Destinations</h3>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Find companions who love mountains, road trips, beaches, treks, or long-stay travels.
+          Smart matching connects you with travelers going to the same destination.
+        </p>
       </div>
 
-      <div class="swiper mySwiperTestimonials">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide px-4">
-            <div class="quote">
-              <p class="text-gray-700">“TravelMate made my family trip seamless — the driver was punctual and the car was spotless. Highly recommended!”</p>
-              <div class="mt-4 flex items-center gap-3">
-                <img src="https://source.unsplash.com/80x80/?person,face" class="w-12 h-12 rounded-full" alt="user">
-                <div>
-                  <div class="text-sm font-semibold">Alice W.</div>
-                  <div class="text-xs text-gray-500">Traveler</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide px-4">
-            <div class="quote">
-              <p class="text-gray-700">“Found great co-travelers and split expenses — made a once-in-a-lifetime experience affordable.”</p>
-              <div class="mt-4 flex items-center gap-3">
-                <img src="https://source.unsplash.com/80x80/?profile" class="w-12 h-12 rounded-full" alt="user">
-                <div>
-                  <div class="text-sm font-semibold">Raj P.</div>
-                  <div class="text-xs text-gray-500">Backpacker</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide px-4">
-            <div class="quote">
-              <p class="text-gray-700">“Excellent customer support and verified drivers. I felt secure the entire trip.”</p>
-              <div class="mt-4 flex items-center gap-3">
-                <img src="https://source.unsplash.com/80x80/?woman,face" class="w-12 h-12 rounded-full" alt="user">
-                <div>
-                  <div class="text-sm font-semibold">Maria K.</div>
-                  <div class="text-xs text-gray-500">Frequent Traveler</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-pagination mt-6"></div>
+      <!-- Card 3 -->
+      <div class="p-8 bg-white shadow rounded-2xl border hover:shadow-xl transition-all duration-300">
+        <h3 class="text-xl font-semibold text-[var(--primary)]">Chat, Plan & Travel Together</h3>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Connect instantly through chat. Discuss plans, budgets, stay options, routes,
+          and split expenses to enjoy a smoother and more affordable journey.
+        </p>
       </div>
-    </section>
 
-    <!-- NEWSLETTER (floating-ish) -->
-    <section class="relative">
-      <div class="newsletter max-w-4xl mx-auto mt-8">
-        <div class="text-center mb-3">
-          <h4 class="text-white text-2xl font-semibold">Get travel deals & tips</h4>
-          <p class="text-white/90 mt-2">Subscribe to our newsletter — curated offers & travel ideas delivered weekly.</p>
-        </div>
-        <form class="flex flex-wrap items-center justify-center gap-3 mt-4">
-          <input type="email" placeholder="Enter your email" class="rounded-lg px-4 py-2" required/>
-          <button class="px-5 py-2 rounded-lg font-semibold">Subscribe</button>
-        </form>
+    </div>
+
+    <!-- Extra Text -->
+    <div class="mt-14 max-w-3xl mx-auto text-center text-gray-700 leading-relaxed">
+      Co-Travelling is not just sharing a trip — it’s sharing experiences, stories, 
+      moments, and building unforgettable friendships. TravelMate ensures that every 
+      connection is meaningful, safe, and perfectly matched for you.
+    </div>
+
+    <!-- Button -->
+    <div class="text-center mt-10">
+      <a href="/coTraveler" class="px-6 py-3 rounded-lg btn-accent inline-block font-semibold text-white">
+        Explore Co-Travellers
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- PARTNER SECTION (NEW) -->
+<section id="partnerSection" class="bg-gray-100 py-16">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <h2 class="text-center text-3xl font-extrabold text-[var(--primary)]">Become a Partner</h2>
+    <p class="text-center text-gray-600 max-w-2xl mx-auto mt-3">
+      Join TravelMate and grow your income as a Driver or Rental Partner.
+    </p>
+
+    <div class="grid gap-10 sm:grid-cols-2 mt-12">
+
+      <!-- DRIVER PARTNER -->
+      <div class="p-8 bg-white shadow rounded-2xl border">
+        <h3 class="text-xl font-semibold text-[var(--primary)]">Driver Partner</h3>
+        <p class="mt-3 text-gray-600">Accept rides, manage bookings, earn more.</p>
+
+        <a href="/partner/driverLogin" class="mt-6 inline-block px-5 py-2 btn-accent rounded-lg">
+          Join as Driver
+        </a>
       </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="mt-12 bg-[var(--primary)] text-white py-8">
-      <div class="max-w-7xl mx-auto px-6 sm:px-8">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <div class="font-bold text-lg">TravelMate</div>
-            <div class="text-sm text-white/90 mt-1">© 2025 TravelMate. All Rights Reserved.</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <a class="text-white/90 hover:underline" href="#">Privacy</a>
-            <a class="text-white/90 hover:underline" href="#">Terms</a>
-            <a class="text-white/90 hover:underline" href="#">Contact</a>
-          </div>
-        </div>
+      <!-- RENTAL PARTNER -->
+      <div class="p-8 bg-white shadow rounded-2xl border">
+        <h3 class="text-xl font-semibold text-[var(--primary)]">Rental Partner</h3>
+        <p class="mt-3 text-gray-600">List cars, manage availability, get bookings.</p>
+
+        <a href="/rentalPartner/rentalPartnerLogin" class="mt-6 inline-block px-5 py-2 btn-accent rounded-lg">
+          Join as Rental Partner
+        </a>
       </div>
-    </footer>
-  </main>
 
-  <!-- SCRIPTS -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // AOS init
-    AOS.init({ duration: 900, once: true });
 
-    // Swiper instances
-    const destSwiper = new Swiper('.mySwiperDest', {
-      slidesPerView: 3,
-      spaceBetween: 16,
-      loop: true,
-      pagination: { el: '.swiper-pagination', clickable: true },
-      breakpoints: {
-        320: { slidesPerView: 1 },
-        640: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 }
-      }
-    });
+<!-- TESTIMONIALS -->
+<section class="max-w-7xl mx-auto px-6 py-16">
+  <h2 class="text-center text-2xl font-bold text-[var(--primary)]">What Travelers Say</h2>
 
-    const testSwiper = new Swiper('.mySwiperTestimonials', {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: true,
-      pagination: { el: '.swiper-pagination', clickable: true },
-      autoplay: { delay: 4000 }
-    });
+  <div class="swiper mySwiperTestimonials mt-10">
+    <div class="swiper-wrapper">
 
-    // Partner dropdown
-    const partnerBtn = document.getElementById('partnerBtn');
-    const partnerMenu = document.getElementById('partnerMenu');
-    partnerBtn && partnerBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      partnerMenu.classList.toggle('hidden');
-    });
-    document.addEventListener('click', e => {
-      if (!partnerBtn.contains(e.target)) partnerMenu.classList.add('hidden');
-    });
+      <div class="swiper-slide p-6 bg-white shadow rounded-xl">
+        “TravelMate made my trip smooth and easy!”
+      </div>
 
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    menuToggle && menuToggle.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+      <div class="swiper-slide p-6 bg-white shadow rounded-xl">
+        “Found amazing co-travelers thanks to this app!”
+      </div>
 
-    // PARTICLE BACKGROUND (simple floating circles)
-    (function () {
-      const canvas = document.getElementById('particle-canvas');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = innerWidth;
-      let h = canvas.height = innerHeight;
-      const colors = ['#FF9F43', '#FF5A5F', '#7C3AED', '#60A5FA'];
-      const particles = [];
-      const count = Math.round((w*h)/90000);
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
 
-      function rand(min,max){ return Math.random()*(max-min)+min; }
-      function init(){
-        particles.length = 0;
-        for(let i=0;i<count;i++){
-          particles.push({
-            x: rand(0,w),
-            y: rand(0,h),
-            r: rand(2,10),
-            vx: rand(-0.2,0.2),
-            vy: rand(-0.15,0.15),
-            color: colors[Math.floor(Math.random()*colors.length)],
-            alpha: rand(0.12,0.35)
-          });
-        }
-      }
-      function resize(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; init(); }
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        for(const p of particles){
-          p.x += p.vx;
-          p.y += p.vy;
-          if(p.x < -50) p.x = w+50;
-          if(p.x > w+50) p.x = -50;
-          if(p.y < -50) p.y = h+50;
-          if(p.y > h+50) p.y = -50;
-          ctx.beginPath();
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.alpha;
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-        requestAnimationFrame(draw);
-      }
-      init();
-      draw();
-      window.addEventListener('resize', resize);
-    })();
-  </script>
+<!-- FOOTER -->
+<footer class="bg-[var(--primary)] text-white py-8">
+  <div class="max-w-7xl mx-auto px-6">
+    <p>© 2025 TravelMate. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<script>
+  AOS.init();
+
+  new Swiper('.mySwiperTestimonials', {
+    slidesPerView: 1,
+    loop: true,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    autoplay: { delay: 4000 }
+  });
+
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+
+  menuToggle.addEventListener('click', () => {
+    mobileNav.classList.toggle('hidden');
+  });
+</script>
+
 </body>
 </html>

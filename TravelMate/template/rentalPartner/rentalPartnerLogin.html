@@ -1,62 +1,98 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Driver Login | TravelMate</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rental Partner Login | TravelMate</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{% static 'css/driverLogin.css' %}">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+    </style>
 </head>
-<body>
 
-  <div class="container">
-    <div class="login-card">
-      <div class="logo">
-        <img src="{% static 'img/carRent.png' %}" alt="Driver Logo">
-        <h1>TravelMate <br><span>Rental Partner</span></h1>
-      </div>
+<body class="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-800 flex items-center justify-center px-4">
 
-      <h2>Welcome Back </h2>
-      <p class="subtitle">Login to manage your trips and earnings</p>
+    <div class="max-w-4xl w-full grid md:grid-cols-2 gap-8 items-center">
 
-      <form action="rentalPartnerHome" class="login-form">
-      
-        <div class="input-group">
-       
-          <input type="email" id="email" name="email" placeholder="Email" required>
+        <!-- Left Info Section -->
+        <div class="text-white space-y-4 hidden md:block">
+            <h1 class="text-4xl font-bold leading-tight">
+                TravelMate <br/>
+                Rental Partner Portal
+            </h1>
+            <p class="text-gray-200">
+                Manage your vehicles, bookings, earnings, and customer requests — all in one place.
+            </p>
+            <ul class="space-y-2 text-sm text-gray-300">
+                <li>✔ Accept & manage ride bookings</li>
+                <li>✔ Track earnings & trip history</li>
+                <li>✔ Update vehicle availability</li>
+            </ul>
         </div>
 
-        <div class="input-group">
-          <div class="password-box">
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
-          </div>
+        <!-- Login Card -->
+        <div class="glass rounded-2xl shadow-xl p-8 text-white">
+            <h2 class="text-2xl font-bold text-center mb-2">Rental Partner Login</h2>
+            <p class="text-sm text-center text-gray-300 mb-6">
+                Login to manage your rentals on TravelMate
+            </p>
+
+            <form method="POST" action="">
+              {% csrf_token %}
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="block text-sm mb-1">Email Address</label>
+                    <input type="email" name="email" required
+                        class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white placeholder-gray-300"
+                        placeholder="partner@gmail.com">
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label class="block text-sm mb-1">Password</label>
+                    <input type="password" name="password" required
+                        class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white placeholder-gray-300"
+                        placeholder="••••••••">
+                </div>
+
+                <!-- Remember + Forgot -->
+                <div class="flex items-center justify-between text-sm mb-6">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" class="accent-blue-500">
+                        Remember me
+                    </label>
+                    <a href="#" class="text-blue-300 hover:underline">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit"
+                    class="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition font-semibold">
+                    Login
+                </button>
+            </form>
+
+            <!-- Signup -->
+            <p class="text-center text-sm text-gray-300 mt-6">
+                Not a partner?
+                <a href="rentalPartnerRegister" class="text-blue-300 font-semibold hover:underline">
+                    Register your vehicle
+                </a>
+            </p>
         </div>
 
-        <button type="submit" class="btn">Login</button>
-
-        <div class="links">
-          <a href="#">Forgot Password?</a>
-          <p>New Driver? <a href="rentalPartnerRegister">Register Now</a></p>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <footer>
-    <p>© 2025 TravelMate. All Rights Reserved.</p>
-  </footer>
-{% comment %} 
-  <script>
-    function togglePassword() {
-      const input = document.getElementById('password');
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-  </script> {% endcomment %}
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hire a Driver | TravelMate</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Hire Driver — TravelMate</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -19,120 +19,180 @@
       color: white;
       font-weight: 600;
       border-radius: 8px;
-      transition: 0.25s;
+      transition: 0.22s;
     }
-    .btn-accent:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
+    .btn-accent:hover { opacity: 0.92; transform: translateY(-2px); }
+    .card-shadow { box-shadow: 0 8px 24px rgba(14,30,37,0.06); }
   </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
 
-  <!-- NAVBAR -->
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-      <a href="index.html" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-700 to-indigo-400 flex items-center justify-center text-white font-bold">TM</div>
-        <span class="text-lg font-semibold text-[var(--primary)]">TravelMate</span>
-      </a>
-      <nav class="hidden md:flex gap-6">
-        <a href="destination.html" class="hover:text-[var(--primary)]">Destinations</a>
-        <a href="rent.html" class="hover:text-[var(--primary)]">Rent a Car</a>
-        <a href="hire-driver.html" class="text-[var(--primary)] font-semibold border-b-2 border-[var(--primary)]">Hire a Driver</a>
-      </nav>
-    </div>
-  </header>
+<!-- HERO -->
+<section class="relative h-40 bg-[url('https://source.unsplash.com/1600x900/?driver,road')] bg-cover bg-center flex items-center">
+  <div class="absolute inset-0 bg-black/45"></div>
+  <div class="relative max-w-6xl mx-auto px-6 text-white">
+    <h1 class="text-3xl font-extrabold" data-aos="fade-up">Hire Driver — Confirm Booking</h1>
+    <p class="text-sm mt-1 text-white/90" data-aos-delay="80">
+      Review driver details and confirm your booking
+    </p>
+  </div>
+</section>
 
-  <!-- HERO SECTION -->
-  <section class="relative h-[40vh] bg-[url('https://source.unsplash.com/1600x900/?car,road,travel')] bg-cover bg-center flex items-center justify-center">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative text-center text-white z-10" data-aos="fade-up">
-      <h1 class="text-4xl md:text-5xl font-extrabold">Hire Your Perfect Driver</h1>
-      <p class="mt-3 text-lg text-white/90">Reliable. Friendly. Professional.</p>
-    </div>
-  </section>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-  <!-- HIRE FORM SECTION -->
-  <section class="max-w-4xl mx-auto px-6 py-16">
-    <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-up">
+<!-- LEFT -->
+<section class="lg:col-span-2">
+<div class="bg-white rounded-2xl p-6 card-shadow" data-aos="fade-up">
 
-      <!-- DRIVER DETAILS -->
-      <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
-        <img src="https://source.unsplash.com/300x300/?driver,man" alt="Driver" class="w-40 h-40 rounded-xl object-cover shadow-md">
-        <div>
-          <h2 class="text-2xl font-semibold text-[var(--primary)]">John Doe</h2>
-          <p class="text-gray-600 mt-1">Experience: 5 years</p>
-          <p class="text-gray-600 mt-1">Vehicle Type: Sedan</p>
-          <p class="text-gray-600 mt-1">Rating: ⭐ 4.8/5</p>
+  <!-- DRIVER INFO -->
+  <div class="flex flex-col md:flex-row gap-6">
+    <img id="driver-image"
+         src="https://i.pravatar.cc/300"
+         class="w-full md:w-48 h-48 rounded-xl object-cover shadow">
+
+    <div class="flex-1">
+      <h2 id="driver-name" class="text-2xl font-semibold text-[var(--primary)]">
+        John Doe
+      </h2>
+      <p id="driver-location" class="text-sm text-gray-600 mt-1">
+        Chennai, Tamil Nadu
+      </p>
+      <p id="driver-meta" class="text-gray-600 mt-2">
+        5 years experience • Sedan specialist
+      </p>
+
+      <div class="mt-4">
+        <div class="text-xs text-gray-500">Hire charge / day</div>
+        <div id="price-per-day" class="text-xl font-bold text-[var(--primary)]">
+          ₹1200
         </div>
       </div>
-
-      <!-- HIRE FORM -->
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">Booking Details</h3>
-      <form action="#" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-          <input type="text" name="name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter your name" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-          <input type="tel" name="phone" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="+91 98765 43210" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
-          <input type="text" name="pickup" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter pickup point" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Drop Location</label>
-          <input type="text" name="drop" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Enter destination" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Hire Date</label>
-          <input type="date" name="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Hire Duration (Days)</label>
-          <input type="number" name="days" min="1" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="e.g. 3" required>
-        </div>
-
-        <div class="md:col-span-2">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
-          <textarea name="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Any special instructions..."></textarea>
-        </div>
-
-        <div class="md:col-span-2 text-center mt-4">
-          <button type="submit" class="btn-accent px-8 py-3 text-lg">Confirm Booking</button>
-        </div>
-
-      </form>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-[var(--primary)] text-white py-8 mt-10">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <div class="font-bold text-lg">TravelMate</div>
-        <div class="text-sm text-white/90 mt-1">© 2025 TravelMate. All Rights Reserved.</div>
-      </div>
-      <div class="flex items-center gap-4 text-sm">
-        <a href="#" class="hover:underline">Privacy</a>
-        <a href="#" class="hover:underline">Terms</a>
-        <a href="#" class="hover:underline">Contact</a>
-      </div>
+  <hr class="my-6">
+
+  <!-- BOOKING FORM -->
+  <form method="POST" id="driver-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% csrf_token %}
+
+    <!-- hidden fields -->
+    <input type="hidden" id="price-day-field" value="1200">
+
+    <div>
+      <label class="text-sm font-medium">Full Name</label>
+      <input name="customer_name" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
     </div>
-  </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ duration: 900, once: true });</script>
+    <div>
+      <label class="text-sm font-medium">Phone</label>
+      <input name="phone" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">Pickup Location</label>
+      <input name="pickupLocation" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">Drop Location</label>
+      <input name="dropLocation" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">Start Date</label>
+      <input type="date" id="start-date" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">End Date</label>
+      <input type="date" id="end-date" required
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">Number of Days</label>
+      <input type="number" id="days" min="1" value="1"
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium">Preferred Time</label>
+      <input type="time"
+             class="mt-1 w-full border rounded-lg px-3 py-2">
+    </div>
+
+    <div class="md:col-span-2">
+      <label class="text-sm font-medium">Additional Notes</label>
+      <textarea rows="3"
+                class="mt-1 w-full border rounded-lg px-3 py-2"></textarea>
+    </div>
+
+    <div class="md:col-span-2 flex justify-end mt-2">
+      <button class="btn-accent px-6 py-2">
+        Confirm & Pay
+      </button>
+    </div>
+  </form>
+
+</div>
+</section>
+
+<!-- RIGHT SUMMARY -->
+<aside class="bg-white rounded-2xl p-6 card-shadow" data-aos="fade-up">
+  <h3 class="text-lg font-semibold">Booking Summary</h3>
+
+  <div class="mt-4 space-y-3 text-sm">
+    <div class="flex justify-between">
+      <span>Driver</span>
+      <span id="summary-driver">John Doe</span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Price / day</span>
+      <span id="summary-price">₹1200</span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Days</span>
+      <span id="summary-days">1</span>
+    </div>
+
+    <div class="flex justify-between font-semibold">
+      <span>Total</span>
+      <span id="summary-total">₹1200</span>
+    </div>
+
+    <p class="text-xs text-gray-500 pt-2">
+      Driver charges exclude fuel and tolls.
+    </p>
+  </div>
+</aside>
+
+</main>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 700, once: true });
+
+function updateTotal() {
+  const days = Math.max(1, Number(document.getElementById("days").value));
+  const price = Number(document.getElementById("price-day-field").value);
+  const total = days * price;
+
+  document.getElementById("summary-days").textContent = days;
+  document.getElementById("summary-total").textContent = `₹${total}`;
+}
+
+document.getElementById("days").addEventListener("input", updateTotal);
+</script>
+
 </body>
 </html>
-

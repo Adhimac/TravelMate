@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookings | Rental Partner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="max-w-7xl mx-auto p-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Bookings</h2>
+    <span class="text-sm text-gray-500">
+      Manage all your vehicle bookings
+    </span>
+  </div>
+
+  <!-- Booking Table -->
+  <div class="bg-white rounded-2xl shadow overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead class="bg-indigo-600 text-white">
+        <tr>
+          <th class="px-4 py-3 text-left">Customer</th>
+          <th class="px-4 py-3 text-left">Vehicle</th>
+          <th class="px-4 py-3">Pickup</th>
+          <th class="px-4 py-3">Drop</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for booking in bookings %}
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3">{{ booking.user }}</td>
+          <td class="px-4 py-3 font-medium">
+            {{ booking.car.vehicleName }}
+          </td>
+          <td class="px-4 py-3">{{ booking.startDate }}</td>
+          <td class="px-4 py-3">{{ booking.endDate }}</td>
+          <td class="px-4 py-3">
+            {% if booking.status == "Pending" %}
+              <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs">
+                Pending
+              </span>
+            {% elif booking.status == "Confirmed" %}
+              <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs">
+                Confirmed
+              </span>
+            {% elif booking.status == "Completed" %}
+              <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+                Completed
+              </span>
+            {% else %}
+              <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs">
+                Cancelled
+              </span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3">
+            <a href="#"
+               class="text-indigo-600 font-semibold hover:underline">
+              View
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-6 text-gray-500">
+            No bookings yet
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>

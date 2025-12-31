@@ -1,75 +1,138 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partner Dashboard | TravelMate</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Partner Home | TravelMate</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{% static 'css/rentalPartnerHome.css' %}">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+    </style>
 </head>
-<body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">
-      <img src="{% static 'img/carRent.png' %}" alt="Logo">
-      <h1 >TravelMate</h1>
+<body class="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-800 text-white">
+
+<!-- Navbar -->
+<nav class="glass px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">TravelMate</h1>
+    <div class="flex items-center gap-4">
+        <span class="text-sm text-gray-200">Rental Partner</span>
+        <button class="px-4 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-sm">
+            Logout
+        </button>
     </div>
+</nav>
 
-    <ul class="nav-links">
-      <li><a href="" class="active">Dashboard</a></li>
-      <li><a href="#">My Vehicles</a></li>
-      <li><a href="#">Bookings</a></li>
-      <li><a href="#">Earnings</a></li>
-      <li><a href="#">Profile</a></li>
-      <li><a href="rentalPartnerLogin">Logout</a></li>
-    </ul>
+<!-- Main -->
+<main class="max-w-7xl mx-auto p-6 space-y-8">
 
-    <!-- Switch Button -->
-    <div class="switch-btn">
-      <a href="{% url 'userHome' %}" class="switch-link">🔄 Switch to User View</a>
+    <!-- Welcome Section -->
+    <section class="glass rounded-2xl p-6">
+        <h2 class="text-2xl font-semibold mb-1">Welcome back 👋</h2>
+        <p class="text-gray-300 text-sm">
+            Manage your rentals, bookings, and earnings from one place.
+        </p>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Total Bookings</p>
+            <h3 class="text-3xl font-bold mt-2">24</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Active Trips</p>
+            <h3 class="text-3xl font-bold mt-2">2</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Total Earnings</p>
+            <h3 class="text-3xl font-bold mt-2">₹42,500</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Account Status</p>
+            <h3 class="text-xl font-semibold mt-3 text-green-400">
+                Approved
+            </h3>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section>
+        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="rentalPartnerBookings" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">View Bookings</h4>
+                <p class="text-sm text-gray-300">
+                    Check upcoming and completed trips
+                </p>
+            </a>
+
+            <a href="earnings.html" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">Earnings</h4>
+                <p class="text-sm text-gray-300">
+                    Track monthly and total earnings
+                </p>
+            </a>
+
+            <a href="rentalPartnerProfile" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">Profile</h4>
+                <p class="text-sm text-gray-300">
+                    View and update your account details
+                </p>
+            </a>
+        </div>
+    </section>
+    <!-- Vehicle Management -->
+<section>
+    <h3 class="text-lg font-semibold mb-4">Vehicle Management</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Add Vehicle -->
+        <a href="addingCars" 
+           class="glass rounded-xl p-6 hover:bg-white/20 transition">
+            <h4 class="text-lg font-semibold mb-1">Add Vehicle</h4>
+            <p class="text-sm text-gray-300">
+                Register a new car for rental on TravelMate
+            </p>
+        </a>
+
+        <!-- View Car Details -->
+        <a href="my-cars.html" 
+           class="glass rounded-xl p-6 hover:bg-white/20 transition">
+            <h4 class="text-lg font-semibold mb-1">My Cars</h4>
+            <p class="text-sm text-gray-300">
+                View car details, status, and manage vehicles
+            </p>
+        </a>
+
     </div>
-  </nav>
+</section>
 
-  <!-- Dashboard Header -->
-  <header class="dashboard-header">
-    <h2>Welcome, Rental Partner!</h2>
-    <p>Manage your cars, bookings, and track your performance all in one place.</p>
-  </header>
 
-  <!-- Dashboard Content -->
-  <section class="dashboard">
-    <div class="card">
-      <img src="{% static 'img/car.png' %}" alt="Cars">
-      <h3>Total Vehicles</h3>
-      <p>8 Active Vehicles</p>
-      <a href="#">Manage Vehicles</a>
-    </div>
+    <!-- Recent Activity -->
+    <section class="glass rounded-2xl p-6">
+        <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
 
-    <div class="card">
-      <img src="{% static 'img/booking.png' %}" alt="Bookings">
-      <h3>Current Bookings</h3>
-      <p>12 Active Rentals</p>
-      <a href="#">View Bookings</a>
-    </div>
+        <ul class="space-y-3 text-sm text-gray-300">
+            <li>✔ Booking completed from Chennai to Pondicherry</li>
+            <li>✔ Payment of ₹3,200 credited to wallet</li>
+            <li>⏳ Booking request pending approval</li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <img src="{% static 'img/income.png' %}" alt="Earnings">
-      <h3>Total Earnings</h3>
-      <p>₹85,400 this month</p>
-      <a href="#">View Details</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 TravelMate. All Rights Reserved.</p>
-  </footer>
+</main>
 
 </body>
 </html>

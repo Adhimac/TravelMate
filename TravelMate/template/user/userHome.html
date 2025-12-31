@@ -1,353 +1,261 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TravelMate | Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate – User Dashboard</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    /* --- Base Reset --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
+    <style>
+        body {
+            background: linear-gradient(135deg, #e8f1ff, #fff7ea);
+            font-family: "Poppins", sans-serif;
+            overflow-x: hidden;
+        }
 
-    body {
-      background: linear-gradient(135deg, #0b1222, #1b2735, #2a3d57);
-      color: #fff;
-      overflow-x: hidden;
-      transition: background 1s ease;
-      animation: fadeIn 1s ease-in-out;
-    }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fadeSlide { animation: fadeSlide 0.8s ease-in-out; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        .float { animation: float 4s ease-in-out infinite; }
 
-    /* --- Navbar --- */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 3rem;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(18px);
+        }
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(22px);
+        }
 
-    .logo {
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #ffcc00;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-    }
-
-    .nav-menu {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .nav-menu li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 500;
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-menu li a:hover {
-      background: #ffcc00;
-      color: #1a1a1a;
-      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.4);
-    }
-
-    /* --- Hero Section --- */
-    .user-hero {
-      text-align: center;
-      padding: 5rem 2rem;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
-      animation: fadeIn 1.2s ease-in-out;
-    }
-
-    .user-hero h1 {
-      font-size: 2.8rem;
-      color: #ffcc00;
-      margin-bottom: 0.8rem;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-    .user-hero p {
-      font-size: 1.1rem;
-      color: #dcdcdc;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* --- Quick Actions --- */
-    .actions {
-      text-align: center;
-      padding: 60px 20px;
-      animation: fadeIn 1.4s ease-in-out;
-    }
-
-    .actions h2 {
-      font-size: 2rem;
-      margin-bottom: 30px;
-      color: #ffcc00;
-    }
-
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .action {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 30px 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .action::before {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 100%;
-      left: 0;
-      top: 0;
-      background: linear-gradient(120deg, #ffcc00, #ff8800);
-      opacity: 0.1;
-      transition: width 0.5s ease;
-      z-index: 0;
-    }
-
-    .action:hover::before {
-      width: 100%;
-    }
-
-    .action:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
-    }
-
-    .action img {
-      width: 70px;
-      margin-bottom: 15px;
-      z-index: 1;
-      position: relative;
-      transition: transform 0.3s ease;
-    }
-
-    .action:hover img {
-      transform: scale(1.15);
-    }
-
-    .action h3 {
-      color: #ffcc00;
-      margin-bottom: 10px;
-      z-index: 1;
-      position: relative;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.6rem 1.5rem;
-      background: linear-gradient(90deg, #ffcc00, #ff8800);
-      color: #1b1b1b;
-      border-radius: 30px;
-      font-weight: 600;
-      text-decoration: none;
-      margin-top: 10px;
-      z-index: 1;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.4);
-    }
-
-    /* --- Dashboard Cards --- */
-    .dashboard {
-      text-align: center;
-      padding: 80px 20px;
-      background: rgba(255,255,255,0.03);
-      animation: fadeIn 1.6s ease-in-out;
-    }
-
-    .dashboard h2 {
-      font-size: 2rem;
-      color: #ffcc00;
-      margin-bottom: 40px;
-    }
-
-    .dashboard-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 30px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
-    }
-
-    .card h3 {
-      color: #ffcc00;
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #dcdcdc;
-      margin-bottom: 15px;
-    }
-
-    /* --- Footer --- */
-    footer {
-      text-align: center;
-      padding: 25px 0;
-      font-size: 0.9rem;
-      background: rgba(0, 0, 0, 0.5);
-      margin-top: 60px;
-      color: #ccc;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(10px);
-    }
-
-    /* --- Responsive --- */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        gap: 0.8rem;
-      }
-      .user-hero h1 {
-        font-size: 2rem;
-      }
-      .actions h2,
-      .dashboard h2 {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+        .glow:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 30px rgba(255, 179, 0, 0.25);
+        }
+    </style>
 </head>
 
-<body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">TravelMate</div>
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="userProfile">Profile</a></li>
-        <li><a href="userLogin">Logout</a></li>
-      </ul>
-    </nav>
-  </header>
+<body class="flex">
 
-  <!-- Hero -->
-  <section class="user-hero">
-    <h1>Welcome Back, {{ user.username }}!</h1>
-    <p>Manage your trips, bookings, and travel companions — all in one place.</p>
-  </section>
+    <!-- SIDEBAR -->
+    <aside class="w-64 h-screen fixed left-0 top-0 glass-dark p-8 shadow-xl flex flex-col">
 
-  <!-- Quick Actions -->
-  <section class="actions">
-    <h2>Quick Actions</h2>
-    <div class="action-grid">
-      <div class="action">
-        <img src="{% static 'userHome/img/map.png' %}" alt="Destinations" />
-        <h3>Destinations</h3>
-        <a href="desination" class="btn">Explore</a>
-      </div>
-      <div class="action">
-        <img src="{% static 'userHome/img/car.png' %}" alt="Rent a Car" />
-        <h3>Rent a Car</h3>
-        <a href="rentCar" class="btn">Book Now</a>
-      </div>
-      <div class="action">
-        <img src="{% static 'userHome/img/driver.png' %}" alt="Hire a Driver" />
-        <h3>Hire a Driver</h3>
-        <a href="hireDriver" class="btn">Hire</a>
-      </div>
-      <div class="action">
-        <img src="{% static 'userHome/img/cotraveler.png' %}" alt="Co-Travelers" />
-        <h3>Find Co-Travelers</h3>
-        <a href="#" class="btn">Connect</a>
-      </div>
+        <!-- Profile -->
+        <div class="text-center mb-10">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                 class="w-24 h-24 mx-auto rounded-full shadow-md bg-white p-2">
+            <h2 class="text-xl font-bold text-yellow-700 mt-3">{{ user.username }}</h2>
+            <p class="text-gray-600 text-sm">TravelMate User</p>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <nav class="flex flex-col gap-4 text-gray-700 font-medium">
+
+            <a href="userHome" class="hover:text-yellow-600 transition flex items-center gap-3">
+                🏠 <span>Dashboard</span>
+            </a>
+
+            <a href="desination" class="hover:text-yellow-600 transition flex items-center gap-3">
+                🗺 <span>Destinations</span>
+            </a>
+
+            <a href="rentCar" class="hover:text-yellow-600 transition flex items-center gap-3">
+                🚗 <span>Rent a Car</span>
+            </a>
+
+            <a href="hireDriver" class="hover:text-yellow-600 transition flex items-center gap-3">
+                👨‍✈️ <span>Hire a Driver</span>
+            </a>
+
+            <a href="#" class="hover:text-yellow-600 transition flex items-center gap-3">
+                🤝 <span>Co-Travelers</span>
+            </a>
+
+            <a href="#" class="hover:text-yellow-600 transition flex items-center gap-3">
+                ⚙️ <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="mt-auto">
+            <a href="userLogout"
+               class="block w-full text-center mt-6 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold transition">
+                Logout
+            </a>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="ml-64 w-full">
+
+        <!-- TOP NAVBAR -->
+        <header class="glass-dark px-10 py-4 w-full shadow-md flex justify-between items-center sticky top-0 z-40 backdrop-blur-lg">
+            <h1 class="text-2xl font-bold text-yellow-700">TravelMate Dashboard</h1>
+
+            <!-- <div class="flex items-center gap-6 text-gray-700">
+                <span>📩</span>
+                <span>🔔</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                     class="w-9 h-9 rounded-full shadow bg-white p-1">
+            </div> -->
+        </header>
+
+        <!-- HERO -->
+        <section class="p-10 fadeSlide">
+
+            <div class="glass-dark p-10 rounded-3xl shadow-xl relative overflow-hidden">
+
+                <div class="absolute top-0 left-0 w-60 h-60 bg-yellow-300/30 rounded-full blur-3xl -z-10"></div>
+                <div class="absolute bottom-0 right-0 w-72 h-72 bg-blue-300/40 rounded-full blur-3xl -z-10"></div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+
+                    <div class="max-w-xl">
+                        <h2 class="text-5xl font-extrabold bg-gradient-to-r from-yellow-600 to-blue-600 text-transparent bg-clip-text">
+                            Hello, {{ user.username }} ✈️
+                        </h2>
+                        <p class="text-gray-700 mt-4 text-lg">
+                            Your travel dashboard is ready! Explore top destinations, book cars, hire drivers, and connect with co-travelers.
+                        </p>
+                    </div>
+
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/travel-luggage-illustration-9277653-7564999.png"
+                         class="w-64 md:w-80 float">
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="px-10 fadeSlide" style="animation-delay:0.25s">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <a href="desination" class="glass p-6 rounded-2xl shadow-lg glow cursor-pointer block">
+                    <div class="text-4xl">🗺</div>
+                    <h3 class="text-xl font-bold text-yellow-700 mt-3">Explore Destinations</h3>
+                    <p class="text-gray-600 text-sm mt-1">Find amazing places to visit.</p>
+                </a>
+
+                <a href="rentCar" class="glass p-6 rounded-2xl shadow-lg glow cursor-pointer block">
+                    <div class="text-4xl">🚗</div>
+                    <h3 class="text-xl font-bold text-yellow-700 mt-3">Rent a Car</h3>
+                    <p class="text-gray-600 text-sm mt-1">Book a ride instantly.</p>
+                </a>
+
+                <a href="hireDriver" class="glass p-6 rounded-2xl shadow-lg glow cursor-pointer block">
+                    <div class="text-4xl">👨‍✈️</div>
+                    <h3 class="text-xl font-bold text-yellow-700 mt-3">Hire a Driver</h3>
+                    <p class="text-gray-600 text-sm mt-1">Professional drivers available.</p>
+                </a>
+
+                <a href="coTraveler" class="glass p-6 rounded-2xl shadow-lg glow cursor-pointer block">
+                    <div class="text-4xl">🤝</div>
+                    <h3 class="text-xl font-bold text-yellow-700 mt-3">Find Co-Travelers</h3>
+                    <p class="text-gray-600 text-sm mt-1">Meet people with similar plans.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- RECOMMENDATIONS -->
+        <section class="px-10 mt-20 fadeSlide" style="animation-delay:0.45s">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Recommended For You</h2>
+
+            <div class="grid md:grid-cols-3 gap-10">
+
+                <div class="glass p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
+                    <img src="https://images.unsplash.com/photo-1511732351157-1865efcb7b7b"
+                         class="w-full h-56 object-cover rounded-xl">
+                    <h3 class="text-xl font-bold mt-4">Top Travel Spots</h3>
+                    <p class="text-gray-600 text-sm mt-2">Discover exciting new destinations.</p>
+                </div>
+
+                <div class="glass p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
+                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753"
+                         class="w-full h-56 object-cover rounded-xl">
+                    <h3 class="text-xl font-bold mt-4">Luxury Cars</h3>
+                    <p class="text-gray-600 text-sm mt-2">Explore our best rental options.</p>
+                </div>
+
+                <div class="glass p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
+                    <img src="https://images.unsplash.com/photo-1500048993959-d85730d94c04"
+                         class="w-full h-56 object-cover rounded-xl">
+                    <h3 class="text-xl font-bold mt-4">Best Drivers</h3>
+                    <p class="text-gray-600 text-sm mt-2">Hire trusted and friendly drivers.</p>
+                </div>
+
+            </div>
+        </section>
+        <!-- FOOTER -->
+<footer class="mt-20 glass-dark shadow-inner px-10 py-10">
+
+    <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-10">
+
+        <!-- Brand -->
+        <div>
+            <h2 class="text-2xl font-extrabold text-yellow-700">TravelMate</h2>
+            <p class="text-gray-700 mt-3 text-sm">
+                Your trusted travel companion.  
+                Discover destinations, book services, and explore without limits.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+            <h3 class="text-lg font-semibold text-yellow-700 mb-3">Quick Links</h3>
+            <ul class="space-y-2 text-gray-700 text-sm">
+                <li><a href="userHome" class="hover:text-yellow-600">Dashboard</a></li>
+                <li><a href="desination" class="hover:text-yellow-600">Destinations</a></li>
+                <li><a href="rentCar" class="hover:text-yellow-600">Rent a Car</a></li>
+                <li><a href="hireDriver" class="hover:text-yellow-600">Hire a Driver</a></li>
+            </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+            <h3 class="text-lg font-semibold text-yellow-700 mb-3">Support</h3>
+            <ul class="space-y-2 text-gray-700 text-sm">
+                <li><a href="#" class="hover:text-yellow-600">Help Center</a></li>
+                <li><a href="#" class="hover:text-yellow-600">Booking Policy</a></li>
+                <li><a href="#" class="hover:text-yellow-600">Terms & Conditions</a></li>
+                <li><a href="#" class="hover:text-yellow-600">Contact Support</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div>
+            <h3 class="text-lg font-semibold text-yellow-700 mb-3">Follow Us</h3>
+            <div class="flex gap-4 text-2xl">
+
+                <a href="#" class="hover:text-yellow-600 transition">🌐</a>
+                <a href="#" class="hover:text-yellow-600 transition">📘</a>
+                <a href="#" class="hover:text-yellow-600 transition">📸</a>
+                <a href="#" class="hover:text-yellow-600 transition">🐦</a>
+
+            </div>
+        </div>
     </div>
-  </section>
 
-  <!-- Dashboard -->
-  <section class="dashboard">
-    <h2>Quick Overview</h2>
-    <div class="dashboard-cards">
-      <div class="card">
-        <h3>Upcoming Trips</h3>
-        <p>3 trips planned</p>
-        <a href="#" class="btn">View Trips</a>
-      </div>
-      <div class="card">
-        <h3>Co-Travelers</h3>
-        <p>5 people connected</p>
-        <a href="#" class="btn">Manage</a>
-      </div>
-      <div class="card">
-        <h3>Car Bookings</h3>
-        <p>2 cars reserved</p>
-        <a href="#" class="btn">View Cars</a>
-      </div>
-      <div class="card">
-        <h3>Driver Hires</h3>
-        <p>1 driver booked</p>
-        <a href="#" class="btn">View Drivers</a>
-      </div>
+    <div class="border-t border-gray-300 mt-10 pt-5 text-center text-gray-600 text-sm">
+        © 2025 TravelMate. All Rights Reserved.
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 TravelMate. All Rights Reserved.
-  </footer>
+</footer>
+
+
+    </main>
+
 </body>
 </html>
