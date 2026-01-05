@@ -17,4 +17,6 @@ urlpatterns = [
     path('profileList',views.profileList,name='profileList'),
     path('profileDetail/<int:user_id>/',views.profileDetail,name='profileDetail'),
     path('connect_traveler/<int:user_id>/', views.connect_traveler, name='connect_traveler'),
+    path('notification/', views.notification, name='notification'),
+    path('accept-connection/<int:connection_id>/', views.accept_connection, name='accept_connection'),
 ]

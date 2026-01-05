@@ -27,6 +27,45 @@
 </head>
 
 <body class="antialiased bg-gray-50 text-gray-800">
+  <!-- NOTIFICATION HEADER -->
+<header class="bg-white border-b sticky top-0 z-40">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <a href="/" class="font-bold text-lg text-[var(--primary)]">
+      TravelMate
+    </a>
+
+    <!-- Notification Icon -->
+    <div class="relative">
+      <a href="notification" class="relative inline-flex items-center">
+
+        <!-- Bell Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="w-6 h-6 text-gray-700 hover:text-[var(--primary)]"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+                   c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68
+                   C7.63 5.36 6 7.92 6 11v3.159
+                   c0 .538-.214 1.055-.595 1.436L4 17h5" />
+        </svg>
+
+        <!-- Badge -->
+        {% if pending_requests_count > 0 %}
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs
+                     w-5 h-5 rounded-full flex items-center justify-center">
+          {{ pending_requests_count }}
+        </span>
+        {% endif %}
+
+      </a>
+    </div>
+
+  </div>
+</header>
+<!-- END NOTIFICATION HEADER -->
+
 
   <!-- HERO -->
   <section class="relative h-72 md:h-96 flex items-center">

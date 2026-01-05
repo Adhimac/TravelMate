@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notifications | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --primary:#1e3a8a;
+      --accent-start:#ff5a5f;
+      --accent-end:#ff9f43;
+    }
+    .btn-accent{
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:white;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-white border-b sticky top-0 z-40">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="font-bold text-lg text-[var(--primary)]">TravelMate</a>
+    <a href="/userProfile" class="text-sm text-gray-600">My Profile</a>
+  </div>
+</header>
+
+<!-- PAGE -->
+<section class="max-w-4xl mx-auto px-6 py-10">
+
+  <h1 class="text-2xl font-bold text-[var(--primary)] mb-6">
+    Connection Requests
+  </h1>
+
+  <h2 class="text-xl font-semibold mb-4">Connection Requests</h2>
+
+{% for req in requests %}
+  <div class="border p-4 rounded-lg mb-3 flex justify-between items-center">
+
+    <div>
+      <h3 class="font-medium">{{ req.traveler.Name }}</h3>
+      <p class="text-sm text-gray-600">
+        {{ req.message }}
+      </p>
+    </div>
+
+    <form method="POST" action="{% url 'accept_connection' req.id %}">
+      {% csrf_token %}
+      <button class="px-4 py-2 bg-green-600 text-white rounded">
+        Accept
+      </button>
+    </form>
+
+  </div>
+{% empty %}
+  <p class="text-gray-500">No new connection requests</p>
+{% endfor %}
+
+
+
+
+</section>
+
+</body>
+</html>

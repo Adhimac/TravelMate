@@ -49,9 +49,11 @@ def userHome(request):
     return render(request,'user/userHome.html')  
 def about(request):
     return render(request,'user/about.html')
-def coTraveler(request):
-    travelers = userRegistration.objects.order_by('registrationDate')[:3]
-    return render(request,'user/coTraveller.html' , {'travelers': travelers})
+# def coTraveler(request):
+#     travelers = userRegistration.objects.order_by('registrationDate')[:3]
+#     return render(request,'user/coTraveller.html' , {'travelers': travelers})
+
+
 def userProfile(request):
     return render(request,'user/userProfile.html')
 def hireDriver(request):
@@ -115,18 +117,53 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import userRegistration
 
+def coTraveler(request):
+    user_id = request.session['id']
+
+    travelers = (
+        userRegistration.objects
+        .exclude(id=user_id)
+        .order_by('registrationDate')[:3]
+    )
+
+    return render(request, 'user/coTraveller.html', {'travelers': travelers})
+
+from django.db.models import Exists, OuterRef
+from .models import connectedTravelers
+
 def profileList(request):
-    travelers = userRegistration.objects.all()
+    current_user_id = request.session['id']
+
+    travelers = (
+        userRegistration.objects
+        .exclude(id=current_user_id)
+        .annotate(
+            is_connected=Exists(
+                connectedTravelers.objects.filter(
+                    traveler_id=current_user_id,
+                    connected_traveler=OuterRef('pk'),
+                    connected_accepted=True
+                )
+            ),
+            is_pending=Exists(
+                connectedTravelers.objects.filter(
+                    traveler_id=current_user_id,
+                    connected_traveler=OuterRef('pk'),
+                    connected_accepted=False,
+                    connected=True
+                )
+            )
+        )
+        .order_by('registrationDate')[:3]
+    )
 
     q = request.GET.get('q')
     destination = request.GET.get('destination')
     gender = request.GET.get('gender')
 
-    # 🔍 FILTER BY USER NAME (MAIN REQUIREMENT)
     if q:
         travelers = travelers.filter(Name__icontains=q)
 
-    # OPTIONAL FILTERS
     if destination:
         travelers = travelers.filter(destination=destination)
 
@@ -136,10 +173,105 @@ def profileList(request):
     return render(request, 'user/profileList.html', {
         'travelers': travelers
     })
+
+
+
+# def profileList(request):
+#     # travelers = userRegistration.objects.all()
+#     travelers = (
+#         userRegistration.objects
+#         .exclude(id=request.session['id'])
+#         .order_by('registrationDate')[:3]
+#     )
+
+#     q = request.GET.get('q')
+#     destination = request.GET.get('destination')
+#     gender = request.GET.get('gender')
+
+#     # 🔍 FILTER BY USER NAME (MAIN REQUIREMENT)
+#     if q:
+#         travelers = travelers.filter(Name__icontains=q)
+
+#     # OPTIONAL FILTERS
+#     if destination:
+#         travelers = travelers.filter(destination=destination)
+
+#     if gender:
+#         travelers = travelers.filter(gender=gender)
+ 
+
+#     return render(request, 'user/profileList.html', {
+#         'travelers': travelers
+#     })
 def connect_traveler(request, user_id):
-    traveler = get_object_or_404(userRegistration, id=user_id)
+    if request.method == 'POST':
+        # logged-in user (sender)
+        sender_id = request.session['id']
+        sender = get_object_or_404(userRegistration, id=sender_id)
 
-    traveler.connected = True
-    traveler.save()
+        # user being connected (receiver)
+        receiver = get_object_or_404(userRegistration, id=user_id)
 
-    return redirect('profileDetail', user_id=traveler.id)
+        # prevent self-connection
+        if sender.id == receiver.id:
+            return redirect('coTraveler')
+
+        message = request.POST.get('message', '')
+
+        connection, created = connectedTravelers.objects.get_or_create(
+            traveler=sender,
+            connected_traveler=receiver,
+            defaults={
+                'message': message,
+                'connected': True
+            }
+        )
+
+        if not created:
+            connection.message = message
+            connection.connected = True
+            connection.save()
+
+        return redirect('profileDetail', user_id=receiver.id)
+
+    # ✅ fallback response (VERY IMPORTANT)
+    return redirect('coTraveler')
+# def connect_traveler(request, user_id):
+#     traveler = get_object_or_404(connectedTravelers, id=user_id)
+
+#     if request.method == 'POST':
+#         user=request.session['id']
+#         traveler = get_object_or_404(userRegistration, id=user_id)
+#         message = request.POST.get('message', '')
+#         traveler.message = message
+
+#     traveler.connected = True
+#     traveler.save()
+
+#     return redirect('profileDetail', user_id=traveler.id)
+def payment(request):
+    return render(request,'user/payment.html')
+def notification(request):
+    user_id = request.session.get('id')
+    user = get_object_or_404(userRegistration, id=user_id)
+
+    # requests sent TO this user & not yet accepted
+    requests = connectedTravelers.objects.filter(
+        connected_traveler=user,
+        connected=True,
+        connected_accepted=False
+    ).select_related('traveler')
+
+    return render(request, 'user/notificationPage.html', {
+        'requests': requests
+    })
+
+
+def accept_connection(request, connection_id):
+    if request.method == 'POST':
+        connection = get_object_or_404(connectedTravelers, id=connection_id)
+
+        connection.connected_accepted = True
+        connection.save()
+
+        return redirect('notification')

@@ -145,18 +145,62 @@
                 View Profile
               </a>
 
-           {% if traveler.connected %}
-  <button
+           <!-- {% if traveler.connected %} -->
+  <!-- <button
     class="px-4 py-2 rounded-lg btn-connected text-sm font-semibold"
     disabled>
     Connected
-  </button>
-{% else %}
+  </button> -->
+<!-- {% else %}
   <a href="{% url 'connect_traveler' traveler.id %}"
      class="px-4 py-2 rounded-lg btn-primary text-sm font-medium">
     Connect
   </a>
+{% endif %} -->
+
+<!-- <form method="POST" action="{% url 'connect_traveler' traveler.id %}">
+  {% csrf_token %}
+  <input type="hidden" name="message" value="Hi, I'd like to connect!">
+  <button type="submit"
+          class="px-4 py-2 rounded-lg btn-primary text-sm font-medium">
+    Connect
+  </button>
+</form> -->
+
+<!-- 
+{% if travelers.connected_accepted %}
+  <button class="px-4 py-2 rounded-lg btn-connected text-sm font-semibold" disabled>
+    Connected
+  </button>
+{% else %}
+  <form method="POST" action="{% url 'connect_traveler' traveler.id %}">
+    {% csrf_token %}
+    <button type="submit"
+            class="px-4 py-2 rounded-lg btn-primary text-sm font-medium">
+      Connect
+    </button>
+  </form>
+{% endif %} -->
+{% if traveler.is_connected %}
+  <button class="px-4 py-2 rounded-lg btn-connected text-sm font-semibold" disabled>
+    Connected
+  </button>
+
+{% elif traveler.is_pending %}
+  <button class="px-4 py-2 rounded-lg bg-yellow-100 text-yellow-700 text-sm font-semibold" disabled>
+    Pending
+  </button>
+
+{% else %}
+  <form method="POST" action="{% url 'connect_traveler' traveler.id %}">
+    {% csrf_token %}
+    <button type="submit"
+            class="px-4 py-2 rounded-lg btn-primary text-sm font-medium">
+      Connect
+    </button>
+  </form>
 {% endif %}
+
 
             </div>
           </div>

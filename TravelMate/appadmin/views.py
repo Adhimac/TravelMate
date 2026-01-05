@@ -5,6 +5,7 @@ from .models import *
 from home.models import *
 from rentalPartner.models import *
 
+
 # Create your views here.
 def adminLogin(request):
     if request.method == 'POST':
@@ -30,3 +31,6 @@ def adminDriverManagement(request):
 def adminCarManagement(request):
     cars = carDetails.objects.all()
     return render(request, 'appadmin/adminCarManagement.html', {'cars': cars})
+def viewBookings(request):
+    bookings = bookingDetails.objects.all()
+    return render(request, 'appadmin/viewBooking.html', {'bookings': bookings})
