@@ -3,11 +3,18 @@ from . import views
 urlpatterns = [
     path('',views.index,name='index'),
     path('userLogin',views.userLogin,name='userLogin'),
+    path('forgotPassword',views.forgotPassword,name='forgotPassword'),
+    path('resetPassword',views.resetPassword,name='resetPassword'),
+    path('verifyOTP',views.verifyOTP,name='verifyOTP'),
+    path('booking',views.Booking,name='booking'),
     path('userReg',views.userReg,name='userReg'),
     path('userHome',views.userHome,name='userHome'),
     path('about',views.about,name='about'),
     path('coTraveler',views.coTraveler,name='coTraveler'),
     path('userProfile',views.userProfile,name='userProfile'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
+path('update-profile/', views.update_profile, name='update_profile'),
+
     path('hireDriver',views.hireDriver,name='hireDriver'),
     path('hire-now/<int:driver_id>/', views.hireNow, name='hireNow'),
     path('rentCar',views.rentCar,name='rentCar'),
@@ -19,4 +26,5 @@ urlpatterns = [
     path('connect_traveler/<int:user_id>/', views.connect_traveler, name='connect_traveler'),
     path('notification/', views.notification, name='notification'),
     path('accept-connection/<int:connection_id>/', views.accept_connection, name='accept_connection'),
+    path('cancel-connection/<int:user_id>/', views.cancel_connection, name='cancel_connection'),
 ]

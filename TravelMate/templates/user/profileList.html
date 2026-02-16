@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Co-Travelers | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fff7ed);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #ff5a5f, #ff9f43);
+      color: white;
+    }
+
+    .btn-connected {
+      background:#dcfce7;
+      color:#15803d;
+      cursor:not-allowed;
+    }
+
+    .card-hover {
+      transition: .25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (MATCHING COTRAVELLER UI) ================= -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <h1 class="text-2xl font-bold text-indigo-700">TravelMate</h1>
+
+    <nav class="hidden md:flex gap-8 font-medium text-gray-700">
+      <a href="/userHome" class="hover:text-indigo-600">Home</a>
+      <a href="/coTraveler" class="hover:text-indigo-600">Co-Travellers</a>
+      <a href="/rentCar" class="hover:text-indigo-600">Rent Cars</a>
+      <a href="/destination" class="hover:text-indigo-600">Destinations</a>
+    </nav>
+
+    <a href="/userProfile"
+       class="btn-primary px-5 py-2 rounded-xl shadow flex items-center gap-2">
+      Profile
+    </a>
+
+  </div>
+</header>
+
+
+<!-- ================= MAIN LAYOUT ================= -->
+<div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
+
+  <!-- ========== FILTER SIDEBAR (RE-STYLED) ========== -->
+  <aside class="bg-white rounded-3xl p-6 border card-shadow h-fit sticky top-28">
+
+    <h3 class="text-xl font-semibold text-gray-800">Filters</h3>
+    <p class="text-gray-500 text-sm mb-5">Find travelers who match your vibe</p>
+
+    <form method="get" class="space-y-4">
+
+      <!-- Search -->
+      <input type="text" name="q" value="{{ request.GET.q }}"
+             placeholder="Search name or interest"
+             class="w-full border rounded-xl px-4 py-2.5 shadow-sm">
+
+      <!-- Destination -->
+      <select name="destination"
+              class="w-full border rounded-xl px-4 py-2.5 shadow-sm">
+        <option value="">Any Destination</option>
+        <option value="Goa" {% if request.GET.destination == "Goa" %}selected{% endif %}>Goa</option>
+        <option value="Manali" {% if request.GET.destination == "Manali" %}selected{% endif %}>Manali</option>
+        <option value="Kerala" {% if request.GET.destination == "Kerala" %}selected{% endif %}>Kerala</option>
+      </select>
+
+      <!-- Interest -->
+      <select name="interest"
+              class="w-full border rounded-xl px-4 py-2.5 shadow-sm">
+        <option value="">Any Interest</option>
+        <option value="Backpacking" {% if request.GET.interest == "Backpacking" %}selected{% endif %}>Backpacking</option>
+        <option value="Road Trip" {% if request.GET.interest == "Road Trip" %}selected{% endif %}>Road Trip</option>
+        <option value="Beach" {% if request.GET.interest == "Beach" %}selected{% endif %}>Beach</option>
+      </select>
+
+      <!-- Gender -->
+      <select name="gender"
+              class="w-full border rounded-xl px-4 py-2.5 shadow-sm">
+        <option value="">Any Gender</option>
+        <option value="Male" {% if request.GET.gender == "Male" %}selected{% endif %}>Male</option>
+        <option value="Female" {% if request.GET.gender == "Female" %}selected{% endif %}>Female</option>
+      </select>
+
+      <!-- Filter Button -->
+      <button type="submit"
+              class="w-full btn-primary py-2.5 rounded-xl font-semibold shadow">
+        Apply Filters
+      </button>
+
+      <!-- Reset -->
+      <a href="{% url 'profileList' %}"
+         class="block text-center text-sm text-gray-500 hover:text-gray-700">
+        Reset filters
+      </a>
+
+    </form>
+  </aside>
+
+
+  <!-- ========== TRAVELER LIST (MATCHING GRID STYLE) ========== -->
+  <main class="lg:col-span-3 space-y-6">
+
+    <p class="text-sm text-gray-600">
+      Showing <strong>{{ travelers|length }}</strong> travelers
+    </p>
+
+    {% for traveler in travelers %}
+    <div class="bg-white rounded-3xl p-6 border card-hover">
+
+      <div class="flex gap-6">
+
+        <!-- IMAGE -->
+        <img src="{{ traveler.photo.url|default:'https://i.pravatar.cc/120' }}"
+             class="w-28 h-28 rounded-2xl object-cover shadow">
+
+        <div class="flex-1">
+
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800">{{ traveler.Name }}</h3>
+              <p class="text-sm text-gray-500">{{ traveler.age }} • {{ traveler.destination }}</p>
+            </div>
+
+            <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
+              Verified
+            </span>
+          </div>
+
+          <!-- BIO -->
+          <p class="mt-3 text-gray-600 text-sm leading-relaxed">
+            {{ traveler.bio|truncatewords:28 }}
+          </p>
+
+          <!-- TAGS -->
+          <div class="mt-3 flex flex-wrap gap-2">
+            {% for tag in traveler.interests_list %}
+              <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">
+                {{ tag }}
+              </span>
+            {% endfor %}
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="mt-5 flex justify-between items-center">
+            <span class="text-xs text-gray-500">
+              Last active {{ traveler.last_active|timesince }} ago
+            </span>
+
+            <div class="flex gap-2">
+
+              <!-- View -->
+              <a href="{% url 'profileDetail' traveler.id %}"
+                 class="px-4 py-2 border rounded-xl hover:bg-gray-50 text-sm">
+                View
+              </a>
+
+              <!-- Connect Button Logic -->
+              {% if traveler.is_connected %}
+                <button class="px-4 py-2 rounded-xl btn-connected text-sm font-semibold" disabled>
+                  Connected
+                </button>
+
+              {% elif traveler.is_pending %}
+                <button class="px-4 py-2 rounded-xl bg-yellow-100 text-yellow-700 text-sm font-semibold" disabled>
+                  Pending
+                </button>
+
+              {% else %}
+                <form method="POST" action="{% url 'connect_traveler' traveler.id %}">
+                  {% csrf_token %}
+                  <button type="submit"
+                          class="px-4 py-2 btn-primary rounded-xl text-sm font-medium">
+                    Connect
+                  </button>
+                </form>
+              {% endif %}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    {% empty %}
+      <p class="text-center text-gray-500 pt-6">No travelers found.</p>
+    {% endfor %}
+
+  </main>
+</div>
+
+
+<!-- ========== FOOTER (MATCHING STYLE) ========== -->
+<footer class="bg-gray-900 text-gray-300 py-16 mt-16">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+
+    <div>
+      <h3 class="text-xl font-semibold text-white">TravelMate</h3>
+      <p class="text-sm mt-3 text-gray-400">
+        Travel safer, smarter & with the right people.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-white">Explore</h4>
+      <ul class="mt-3 text-sm space-y-2 text-gray-300">
+        <li><a href="/destination">Destinations</a></li>
+        <li><a href="/coTraveler">Travel Tribes</a></li>
+        <li><a href="/rentCar">Rent Cars</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-white">Contact</h4>
+      <p class="text-sm text-gray-400 mt-3">support@travelmate.com</p>
+    </div>
+
+  </div>
+
+  <p class="text-center text-gray-500 mt-10 text-sm">
+    © 2025 TravelMate. All Rights Reserved.
+  </p>
+</footer>
+
+</body>
+</html>

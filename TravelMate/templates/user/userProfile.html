@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user.Name }} | TravelMate</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #0d8065;
+      --light-bg: #e7f4ef;
+      --text-dark: #2c3b40;
+      --gray: #708c8b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: var(--light-bg);
+      animation: fadeIn 0.7s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TOP COVER IMAGE */
+    .cover {
+      width: 100%;
+      height: 250px;
+      background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+      background-size: cover;
+      background-position: center;
+      border-bottom-left-radius: 60px;
+      border-bottom-right-radius: 60px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      animation: fadeSlideDown 1s ease;
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TOP-RIGHT DROPDOWN MENU */
+    .dropdown-container {
+      position: absolute;
+      right: 25px;
+      top: 20px;
+      z-index: 50;
+    }
+
+    .menu-btn {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: 0.2s ease;
+    }
+
+    .menu-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      margin-top: 10px;
+      background: white;
+      border-radius: 12px;
+      width: 160px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.20);
+      overflow: hidden;
+      animation: fadeMenu 0.2s ease;
+    }
+
+    @keyframes fadeMenu {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dropdown a:hover {
+      background: var(--light-bg);
+    }
+
+    .dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    /* Profile image floating */
+    .profile-container {
+      display: flex;
+      justify-content: center;
+      margin-top: -75px;
+      position: relative;
+      z-index: 10;
+      animation: popIn 0.8s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 6px solid var(--light-bg);
+      outline: 4px solid #16c47f;
+      object-fit: cover;
+      background: white;
+      position: relative;
+      z-index: 20;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .profile-img:hover {
+      transform: scale(1.05);
+    }
+
+    /* USER TEXT DETAILS */
+    .user-details {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .user-details h2 {
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .user-details .role {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 3px;
+    }
+
+    /* LOCATION */
+    .location {
+      display: flex;
+      justify-content: center;
+      margin-top: 5px;
+      gap: 6px;
+      font-size: 0.92rem;
+      color: var(--green);
+      font-weight: 500;
+      align-items: center;
+    }
+
+    .location img {
+      width: 18px;
+    }
+
+    /* FOLLOWERS STATS */
+    .stats-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .stat h3 {
+      color: var(--green);
+      font-size: 1.25rem;
+      font-weight: 700;
+      transition: 0.3s ease;
+    }
+
+    .stat p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: -3px;
+    }
+
+    .stat:hover h3 {
+      transform: scale(1.1);
+    }
+
+    /* TABS */
+    .tabs {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid #b9d4ce;
+      padding-bottom: 10px;
+    }
+
+    .tab {
+      font-size: 1rem;
+      color: #7c9d96;
+      padding-bottom: 8px;
+      position: relative;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    .tab.active {
+      color: var(--green);
+    }
+
+    .tab.active::after {
+      content: "";
+      width: 60%;
+      height: 3px;
+      background: var(--green);
+      border-radius: 10px;
+      position: absolute;
+      bottom: -10px;
+      left: 20%;
+    }
+
+    /* MEDIA GRID */
+    .media-section {
+      padding: 20px;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .media-grid img {
+      width: 100%;
+      height: 125px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+      transition: 0.3s ease;
+    }
+
+    .media-grid img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- COVER IMAGE -->
+  <div class="cover"></div>
+
+  <!-- TOP-RIGHT DROPDOWN MENU -->
+  <div class="dropdown-container">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <div id="dropdownMenu" class="dropdown">
+      <a href="edit-profile">Edit Profile</a>
+      <a href="/userProfile">My Profile</a>
+      <a href="/userHome">Home</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <!-- PROFILE IMAGE -->
+  <div class="profile-container">
+    <img class="profile-img" src="{{ user.photo.url|default:'https://i.pravatar.cc/300' }}">
+  </div>
+
+  <!-- NAME, ROLE, LOCATION -->
+  <div class="user-details">
+    <h2>{{ user.Name }}</h2>
+    <p class="role">Traveler | Explorer</p>
+  </div>
+
+  <div class="location">
+    <img src="https://cdn-icons-png.flaticon.com/512/535/535239.png">
+    <span>{{ user.destination|default:"Unknown, Earth" }}</span>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat">
+      <h3>{{ followers|default:"0" }}</h3>
+      <p>followers</p>
+    </div>
+    <div class="stat">
+      <h3>{{ following|default:"0" }}</h3>
+      <p>following</p>
+    </div>
+    <div class="stat">
+      <h3>{{ likes|default:"0" }}</h3>
+      <p>likes</p>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab">Topics</div>
+    <div class="tab active">Media</div>
+    <div class="tab">Likes</div>
+  </div>
+
+  <!-- MEDIA GRID -->
+  <div class="media-section">
+    <div class="media-grid">
+      {% for img in user.gallery_images %}
+      <img src="{{ img.url }}">
+      {% empty %}
+      <p style="grid-column: span 3; text-align:center; color:#777;">No media uploaded.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- DROPDOWN SCRIPT -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("dropdownMenu");
+      const btn = document.querySelector(".menu-btn");
+
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>

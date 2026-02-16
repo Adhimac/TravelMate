@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Cars | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+<body>
+<!-- Back Button -->
+<a href="rentalPartnerHome"
+   class="absolute top-6 left-6 z-20 flex items-center gap-2 
+          text-gray-700 bg-white/80 px-4 py-2 rounded-full shadow 
+          backdrop-blur hover:bg-white transition">
+    ← Back
+</a>
+
+<div class="max-w-7xl mx-auto p-6">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800">My Cars</h1>
+      <p class="text-gray-600">Manage all vehicles listed under your dealership</p>
+    </div>
+
+    <a href="addingCars"
+       class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow">
+      + Add New Car
+    </a>
+  </div>
+
+  {% if cars %}
+  <!-- Cars Grid -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    {% for car in cars %}
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+      <!-- Car Image -->
+      <img src="{% if car.vehicleImage %}{{ car.vehicleImage.url }}{% else %}https://source.unsplash.com/400x300/?car{% endif %}"
+           class="w-full h-48 object-cover">
+
+      <!-- Details -->
+      <div class="p-6 space-y-2">
+        <h3 class="text-xl font-semibold text-gray-800">
+          {{ car.vehicleName }}
+        </h3>
+
+        <p class="text-sm text-gray-500">
+          {{ car.vehicleType }} • {{ car.fuelType }} • {{ car.seatingCapacity }} Seats
+        </p>
+
+        <p class="text-sm text-gray-500">
+          Vehicle No: <span class="font-medium">{{ car.vehicleNumber }}</span>
+        </p>
+
+        <div class="flex items-center justify-between mt-4">
+          <span class="text-lg font-bold text-indigo-600">
+            ₹{{ car.rentPerDay }}/day
+          </span>
+
+          {% if car.availabilityStatus %}
+            <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+              Available
+            </span>
+          {% else %}
+            <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">
+              Unavailable
+            </span>
+          {% endif %}
+        </div>
+
+        <!-- Actions -->
+   <!-- Actions -->
+<div class="flex gap-3 mt-4">
+  <a href="{% url 'editCar' car.id %}"
+     class="flex-1 text-center px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl">
+    Edit
+  </a>
+
+  <a href="{% url 'deleteCar' car.id %}"
+     onclick="return confirm('Are you sure you want to delete this car?')"
+     class="flex-1 text-center px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl">
+    Delete
+  </a>
+</div>
+
+
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  {% else %}
+  <!-- Empty State -->
+  <div class="bg-white rounded-3xl shadow p-12 text-center">
+    <img src="https://source.unsplash.com/200x200/?empty,car"
+         class="mx-auto mb-6 rounded-xl">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+      No Cars Added Yet
+    </h2>
+    <p class="text-gray-600 mb-6">
+      Start adding vehicles to list them for rent.
+    </p>
+    <a href="addCar"
+       class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow">
+      Add Your First Car
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+
+</body>
+</html>

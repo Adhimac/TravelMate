@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Approve Rental Partners | TravelMate Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background-color: #f4f6fb;
+      font-family: Inter, sans-serif;
+    }
+
+    .row-hover:hover {
+      background-color: #f9fafb !important;
+      cursor: pointer;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .animate-slideUp {
+      animation: slideUp .3s ease-out;
+    }
+  </style>
+</head>
+
+<body class="p-8">
+
+  <!-- PAGE HEADER -->
+  <div class="mb-6">
+    <a href="{% url 'adminHome' %}"
+      class="inline-block mb-4 text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md">
+      ⬅ Back
+    </a>
+
+    <h1 class="text-2xl font-semibold text-gray-800">Rental Partner Approval</h1>
+    <p class="text-sm text-gray-500 mt-1">Review rental partner details and approve or reject applications.</p>
+  </div>
+
+  <!-- TABLE -->
+  <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50 border-b">
+        <tr class="text-left text-gray-600">
+          <th class="px-6 py-4">#</th>
+          <th class="px-6 py-4">Name</th>
+          <th class="px-6 py-4">Company</th>
+          <th class="px-6 py-4">Email</th>
+          <th class="px-6 py-4">Phone</th>
+          <th class="px-6 py-4">Aadhaar No</th>
+          <th class="px-6 py-4">Location</th>
+          <th class="px-6 py-4">Aadhaar Image</th>
+          <th class="px-6 py-4">Shop Image</th>
+          <th class="px-6 py-4">Status</th>
+          <th class="px-6 py-4 text-center">Action</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y">
+        {% for partner in partners %}
+        <tr class="row-hover">
+
+          <td class="px-6 py-4">{{ forloop.counter }}</td>
+          <td class="px-6 py-4 font-medium text-gray-800">{{ partner.name }}</td>
+          <td class="px-6 py-4 text-gray-600">{{ partner.combanyName|default:"—" }}</td>
+          <td class="px-6 py-4 text-gray-600">{{ partner.email }}</td>
+          <td class="px-6 py-4 text-gray-600">{{ partner.mobileNumber }}</td>
+          <td class="px-6 py-4 text-gray-600">{{ partner.aadharId }}</td>
+          <td class="px-6 py-4 text-gray-600">{{ partner.location|default:"Not set" }}</td>
+
+          <!-- Aadhaar Image -->
+          <td class="px-6 py-4" onclick="event.stopPropagation(); showImage('{{ partner.aadharImage.url }}')">
+            {% if partner.aadharImage %}
+            <img src="{{ partner.aadharImage.url }}"
+              class="w-16 h-16 rounded shadow cursor-pointer object-cover hover:scale-105 transition">
+            {% else %} - {% endif %}
+          </td>
+
+          <!-- Shop Image -->
+          <td class="px-6 py-4" onclick="event.stopPropagation(); showImage('{{ partner.shopImage.url }}')">
+            {% if partner.shopImage %}
+            <img src="{{ partner.shopImage.url }}"
+              class="w-16 h-16 rounded shadow cursor-pointer object-cover hover:scale-105 transition">
+            {% else %} - {% endif %}
+          </td>
+
+          <!-- Status -->
+          <td class="px-6 py-4">
+            {% if partner.status == "approved" %}
+            <span class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">✔ Approved</span>
+            {% elif partner.status == "pending" %}
+            <span class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">⏳ Pending</span>
+            {% else %}
+            <span class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full">✖ Rejected</span>
+            {% endif %}
+          </td>
+
+          <!-- Actions -->
+          <td class="px-6 py-4 flex flex-col items-center gap-2">
+
+            <button onclick="event.stopPropagation(); openPartnerDetails({{ partner.id }})"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs hover:bg-blue-700 w-24">
+              View Details
+            </button>
+
+            <a href="{% url 'approvePartner' partner.id %}"
+              class="px-4 py-2 bg-green-600 text-white rounded-lg text-xs hover:bg-green-700 w-24">
+              Approve
+            </a>
+
+            <a href="{% url 'rejectPartner' partner.id %}"
+              class="px-4 py-2 bg-red-600 text-white rounded-lg text-xs hover:bg-red-700 w-24">
+              Reject
+            </a>
+
+          </td>
+
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="11" class="px-6 py-6 text-center text-gray-500">No rental partners registered yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+  <!-- FULL DETAILS MODAL -->
+  <div id="detailsModal"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-xl p-6 relative animate-slideUp">
+
+      <button onclick="closeDetailsModal()"
+        class="absolute top-4 right-4 bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded-full">✕</button>
+
+      <h2 class="text-2xl font-bold mb-6 text-gray-800">Rental Partner Full Details</h2>
+
+      <div id="partnerDetailsContent"></div>
+
+    </div>
+  </div>
+
+  <!-- IMAGE VIEWER -->
+  <div id="imageModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+
+    <div id="modalContent" class="relative scale-90 opacity-0 transition-all duration-300">
+
+      <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl border border-white/20">
+
+      <button onclick="closeModal()"
+        class="absolute -top-5 -right-5 bg-white text-black px-3 py-1.5 rounded-full shadow-lg">✕</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const partners = {{ partners_json|safe }};
+
+    function openPartnerDetails(id) {
+      const p = partners.find(x => x.id === id);
+      if (!p) return;
+
+      let html = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-lg font-semibold mb-3 text-gray-700">Personal Information</h3>
+            <p><strong>Name:</strong> ${p.name}</p>
+            <p><strong>Company:</strong> ${p.combanyName ?? '—'}</p>
+            <P>GST No: ${p.GST_number ?? '—'}</P>
+            <p><strong>Email:</strong> ${p.email}</p>
+            <p><strong>Phone:</strong> ${p.mobileNumber}</p>
+            <p><strong>Location:</strong> ${p.city && p.state ? `${p.location ?? ''} (${p.city}, ${p.state})` : 'Not set'}</p>
+            <p><strong>Aadhaar No:</strong> ${p.aadharId}</p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-3 text-gray-700">Images</h3>
+
+            <p class="font-medium mt-1">Aadhaar Image:</p>
+            ${p.aadharImage 
+              ? `<img src="${p.aadharImage}" onclick="showImage('${p.aadharImage}')" class="w-40 h-40 rounded-xl shadow object-cover cursor-pointer">`
+              : `<p>-</p>`}
+
+            <p class="font-medium mt-4">Shop Image:</p>
+            ${p.shopImage 
+              ? `<img src="${p.shopImage}" onclick="showImage('${p.shopImage}')" class="w-40 h-40 rounded-xl shadow object-cover cursor-pointer">`
+              : `<p>-</p>`}
+          </div>
+        </div>
+
+      <div class="mt-8 border-t pt-6 flex justify-end gap-4">
+
+  <a href="/appadmin/approvePartner/${p.id}/"
+     class="px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700">
+    Approve
+  </a>
+
+  <a href="/appadmin/rejectPartner/${p.id}/"
+     class="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700">
+    Reject
+  </a>
+
+</div>
+
+      `;
+
+      document.getElementById("partnerDetailsContent").innerHTML = html;
+      document.getElementById("detailsModal").classList.remove("hidden");
+    }
+
+    function closeDetailsModal() {
+      document.getElementById("detailsModal").classList.add("hidden");
+    }
+
+    function showImage(src) {
+      const modal = document.getElementById("imageModal");
+      const modalContent = document.getElementById("modalContent");
+      const modalImg = document.getElementById("modalImage");
+
+      modalImg.src = src;
+      modal.classList.remove("hidden");
+
+      setTimeout(() => {
+        modalContent.classList.add("opacity-100", "scale-100");
+        modalContent.classList.remove("opacity-0", "scale-90");
+      }, 20);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("imageModal");
+      const modalContent = document.getElementById("modalContent");
+
+      modalContent.classList.add("opacity-0", "scale-90");
+      modalContent.classList.remove("opacity-100", "scale-100");
+
+      setTimeout(() => modal.classList.add("hidden"), 200);
+    }
+
+    document.getElementById("imageModal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+
+</body>
+
+</html>

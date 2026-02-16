@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile | TravelMate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      font-family: 'Inter', sans-serif;
+    }
+    .input-field {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: white;
+    }
+    .input-field::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex justify-center items-center px-4">
+
+<div class="w-full max-w-sm">
+
+  <!-- HEADER -->
+  <div class="flex items-center mb-6 text-white">
+    <a href="{% url 'driverProfile' %}" class="text-xl mr-3">←</a>
+    <h2 class="text-lg font-semibold">Edit Profile</h2>
+  </div>
+
+  <!-- PROFILE IMAGE -->
+  <div class="flex justify-center mb-8 relative">
+    <img src="{% if driver.profileImage %}{{ driver.profileImage.url }}{% else %}{% static 'img/driver.png' %}{% endif %}"
+         class="w-32 h-32 rounded-full border-4 border-white/20 object-cover">
+
+    <label class="absolute bottom-1 right-28 bg-blue-600 p-2 rounded-full cursor-pointer">
+      <input type="file" name="profile_image" form="profileForm" hidden>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536M9 11l6-6m-3 12h6"/>
+      </svg>
+    </label>
+  </div>
+
+  <!-- FORM -->
+  <form id="profileForm" method="POST" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+
+    <div>
+      <label class="text-sm text-gray-300">Username</label>
+      <input type="text" name="name" value="{{ driver.name }}"
+             class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-300">Phone Number</label>
+      <input type="text" name="phone" value="{{ driver.phoneNumber }}"
+             class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-300">City</label>
+      <input type="text" name="city" value="{{ driver.city }}"
+             class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-300">State</label>
+      <input type="text" name="state" value="{{ driver.state }}"
+             class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-300">Address</label>
+      <textarea name="address" rows="2"
+                class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">{{ driver.address }}</textarea>
+    </div>
+    <div>
+  <label class="text-sm text-gray-300">Licence Number</label>
+  <input type="text" name="license_number"
+         value="{{ driver.licenceNumber }}"
+         class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+</div>
+
+
+    <div>
+      <label class="text-sm text-gray-300">Licence Type</label>
+      <select name="vehicle_type"
+              class="input-field w-full mt-1 px-4 py-2 rounded-lg outline-none">
+        <option value="">Select licence type</option>
+        <option value="LMV" {% if driver.licenceType == "LMV" %}selected{% endif %}>LMV</option>
+        <option value="HMV" {% if driver.licenceType == "HMV" %}selected{% endif %}>HMV</option>
+        <option value="Transport" {% if driver.licenceType == "Transport" %}selected{% endif %}>Transport</option>
+      </select>
+    </div>
+
+    <!-- SAVE BUTTON -->
+    <button type="submit"
+            class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+      Save Changes
+    </button>
+
+  </form>
+
+</div>
+
+</body>
+</html>

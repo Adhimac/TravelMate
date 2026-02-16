@@ -1,20 +1,42 @@
 from django.db import models
-from datetime import datetime
 from django.utils import timezone
 
-# Create your models here.
+
 class driverRegistration(models.Model):
-    name=models.CharField(max_length=25)
-    email=models.CharField(max_length=50)
-    password=models.CharField(max_length=25)
-    licenceNumber=models.CharField(max_length=25)
-    location=models.CharField(max_length=50, null=True, blank=True)
-    aadharId=models.IntegerField(max_length=12)
-    phoneNumber=models.IntegerField(max_length=10, null=True, blank=True)
-    address=models.CharField(max_length=100, null=True, blank=True)
-    profileImage=models.ImageField(upload_to='driver_profiles/', null=True, blank=True)
-    licenceImage=models.ImageField(upload_to='driver_licences/', null=True, blank=True)
-    licenceType=models.CharField(max_length=20, null=True, blank=True)
-    driverJoinedDate=models.DateField(default=timezone.now)
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
+    # Personal Details
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+
+    phoneNumber = models.CharField(max_length=15, null=True, blank=True)
+    
+    location = models.CharField(max_length=200, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+
+    driver_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    # Licence
+    licenceNumber = models.CharField(max_length=30)
+    licenceExpiry = models.DateField(null=True, blank=True)
+    licenceImage = models.ImageField(upload_to='driver_licences/', null=True, blank=True)
+
+    # Documents
+    profileImage = models.ImageField(upload_to='driver_profiles/', null=True, blank=True)
+    # aadharId = models.CharField(max_length=12)
+    # aadharImage = models.ImageField(upload_to='driver_aadhars/', null=True, blank=True)
+
+    # Bank
+    bank_account = models.CharField(max_length=50, null=True, blank=True)
+    ifsc = models.CharField(max_length=20, null=True, blank=True)
+
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    joinedDate = models.DateTimeField(default=timezone.now)
+
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.status})"

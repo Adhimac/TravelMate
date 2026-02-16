@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate – Create Account</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .input-box {
+            border: 1px solid #e5e7eb;
+        }
+        .input-box:focus {
+            border-color: #00aaff;
+            box-shadow: 0 0 4px #00aaff;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-100 flex items-center justify-center">
+
+<div class="bg-white w-full max-w-3xl shadow-xl rounded-2xl p-8">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Create Your Account</h1>
+        <p class="text-gray-500">Join TravelMate and start connecting with travelers</p>
+    </div>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Profile Image Upload -->
+            <div class="col-span-2 flex flex-col items-center">
+                <input type="file" id="profileInput" name="profileImage" accept="image/*"
+                       onchange="previewImage(event)" class="hidden">
+
+                <div onclick="document.getElementById('profileInput').click()"
+                     class="w-28 h-28 rounded-full bg-gray-200 overflow-hidden shadow cursor-pointer hover:opacity-80 transition">
+                    <img id="profilePreview"
+                         src="{% static 'img/default-profile.png' %}"
+                         class="w-full h-full object-cover" />
+                </div>
+
+                <p class="text-xs text-gray-500 mt-2">Click to upload profile picture</p>
+                <p id="imgError" class="text-red-500 text-xs hidden"></p>
+            </div>
+
+            <!-- Name -->
+            <div>
+                <label class="text-sm font-medium">Full Name</label>
+                <input type="text" name="Name" required
+                       pattern="^[A-Za-z ]{3,40}$"
+                       placeholder="John Doe"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label class="text-sm font-medium">Email</label>
+                <input type="email" name="email" required
+                       placeholder="example@gmail.com"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Phone -->
+            <div>
+                <label class="text-sm font-medium">Phone Number</label>
+                <input type="text" name="phoneNumber" required maxlength="10"
+                       pattern="^[6-9]\d{9}$"
+                       placeholder="9876543210"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Age -->
+            <div>
+                <label class="text-sm font-medium">Age</label>
+                <input type="number" name="age" min="10" max="100"
+                       placeholder="21"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label class="text-sm font-medium">Gender</label>
+                <select name="gender" class="input-box w-full p-2 rounded mt-1">
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Destination -->
+            <div>
+                <label class="text-sm font-medium">Preferred Destination</label>
+                <input type="text" name="destination" 
+                       placeholder="Goa, Kerala, Ladakh..."
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Fav Destinations -->
+            <div>
+                <label class="text-sm font-medium">Favourite Destinations</label>
+                <input type="text" name="favDestinations"
+                       placeholder="Paris, Bali, Manali..."
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Budget -->
+            <div>
+                <label class="text-sm font-medium">Budget Range</label>
+                <input type="text" name="budgetRange"
+                       placeholder="₹5000 - ₹20000"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Travel Preferences -->
+            <div>
+                <label class="text-sm font-medium">Travel Preferences</label>
+                <input type="text" name="travelpreferences"
+                       placeholder="Backpacking, luxury, solo..."
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Bio -->
+            <div class="col-span-2">
+                <label class="text-sm font-medium">Bio</label>
+                <textarea name="bio" rows="2"
+                          placeholder="Tell something about yourself..."
+                          class="input-box w-full p-2 rounded mt-1"></textarea>
+            </div>
+
+            <!-- About -->
+            <div class="col-span-2">
+                <label class="text-sm font-medium">About</label>
+                <textarea name="about" rows="2"
+                          placeholder="Your interests, hobbies, goals..."
+                          class="input-box w-full p-2 rounded mt-1"></textarea>
+            </div>
+
+            <!-- Password -->
+            <div class="col-span-2">
+                <label class="text-sm font-medium">Password</label>
+                <input type="password" id="password" name="password" required
+                       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?]).{8,}"
+                       title="Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 symbol"
+                       placeholder="Create password"
+                       class="input-box w-full p-2 rounded mt-1">
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-span-2">
+                <label class="text-sm font-medium">Confirm Password</label>
+                <input type="password" id="confirmpassword" required
+                       placeholder="Re-enter password"
+                       class="input-box w-full p-2 rounded mt-1">
+                <p id="passError" class="text-red-500 text-xs mt-1 hidden">Passwords do not match</p>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 mt-6 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Create Account
+        </button>
+
+        <p class="text-center text-sm mt-4">
+            Already have an account?
+            <a href="/userLogin" class="text-blue-600 underline">Login</a>
+        </p>
+    </form>
+</div>
+
+<!-- JS Validation -->
+<script>
+function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("profilePreview");
+    const error = document.getElementById("imgError");
+
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+        error.textContent = "Only JPG or PNG allowed";
+        error.classList.remove("hidden");
+        return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+        error.textContent = "Image must be under 2MB";
+        error.classList.remove("hidden");
+        return;
+    }
+
+    error.classList.add("hidden");
+    preview.src = URL.createObjectURL(file);
+}
+
+function validateForm() {
+    let p = document.getElementById("password").value;
+    let c = document.getElementById("confirmpassword").value;
+    let error = document.getElementById("passError");
+
+    if (p !== c) {
+        error.classList.remove("hidden");
+        return false;
+    }
+    error.classList.add("hidden");
+    return true;
+}
+</script>
+
+</body>
+</html>

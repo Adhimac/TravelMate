@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TravelMate | Travel Tribe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fff7ed);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #ff5a5f, #ff9f43);
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-indigo-700">TravelMate</h1>
+
+    <nav class="hidden md:flex gap-8 font-medium text-gray-700">
+      <a href="#tribe" class="hover:text-indigo-600">Travel Tribe</a>
+      <a href="#find" class="hover:text-indigo-600">Find Tribe</a>
+      <a href="rentCar" class="hover:text-indigo-600">Rent Cars</a>
+      <a href="hireDriver" class="hover:text-indigo-600">Hire Drivers</a>
+    </nav>
+
+ <div class="flex items-center gap-5">
+
+  <!-- NOTIFICATION BTN -->
+  <a href="/notification" class="relative">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-7 h-7 text-gray-700 hover:text-indigo-700 transition"
+         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+               c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68
+               C7.63 5.36 6 7.92 6 11v3.159
+               c0 .538-.214 1.055-.595 1.436L4 17h5" />
+    </svg>
+
+    {% if notification_count > 0 %}
+    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs
+                 w-5 h-5 rounded-full flex items-center justify-center shadow">
+      {{ notification_count }}
+    </span>
+    {% endif %}
+  </a>
+
+  <!-- PROFILE BUTTON -->
+  <a href="/userProfile"
+     class="btn-primary px-5 py-2 rounded-xl shadow flex items-center gap-2">
+    Profile
+  </a>
+
+</div>
+
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-14 items-center">
+
+  <div>
+    <h2 class="text-5xl font-extrabold text-gray-900 leading-tight">
+      Travel Together. <br>
+      Belong to a <span class="text-indigo-600">Travel Tribe</span>.
+    </h2>
+
+    <p class="text-gray-600 mt-6 text-lg">
+      TravelMate connects you with like-minded travelers, trusted drivers, and
+      reliable rental cars — all in one place.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href="coTraveler" class="btn-primary px-6 py-3 rounded-xl shadow">
+        Find Your Tribe
+      </a>
+      <a href="destination"
+         class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-50">
+        Explore Destinations
+      </a>
+    </div>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff"
+       class="rounded-3xl shadow-xl">
+</section>
+
+<!-- ================= WHAT IS TRAVEL TRIBE ================= -->
+<section id="tribe" class="bg-white py-20">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+
+    <h2 class="text-4xl font-bold text-gray-900">
+      What is a Travel Tribe?
+    </h2>
+
+    <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+      A Travel Tribe is a group of travelers who share similar destinations,
+      interests, budgets, or travel dates.
+      Instead of traveling alone, you explore with people who match your vibe.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-10 mt-16">
+
+      <div class="p-6 rounded-2xl bg-indigo-50">
+        <h3 class="text-xl font-semibold text-indigo-700">
+          🤝 Find Like-Minded People
+        </h3>
+        <p class="text-gray-600 mt-3">
+          Connect with travelers who share your interests, plans, and pace.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-indigo-50">
+        <h3 class="text-xl font-semibold text-indigo-700">
+          💰 Travel Smarter Together
+        </h3>
+        <p class="text-gray-600 mt-3">
+          Split costs on transport, stays, and experiences.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-indigo-50">
+        <h3 class="text-xl font-semibold text-indigo-700">
+          🌍 Safer & More Fun
+        </h3>
+        <p class="text-gray-600 mt-3">
+          Group travel brings safety, shared memories, and better experiences.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FIND TRIBE ================= -->
+<section id="find" class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
+
+  <!-- Image -->
+  <img 
+    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+    alt="Travelers connecting and planning a journey"
+    class="rounded-3xl shadow-2xl object-cover w-full h-[420px]"
+  >
+
+  <!-- Content -->
+  <div>
+    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+      Discover and Connect with <br class="hidden md:block">
+      Like-Minded Travelers
+    </h2>
+
+    <p class="text-gray-600 mt-6 text-lg leading-relaxed max-w-xl">
+      Explore verified traveler profiles based on destinations, interests,
+      and travel schedules. Connect seamlessly and build meaningful
+      travel communities before you start your journey.
+    </p>
+
+    <a 
+      href="coTraveler"
+      class="inline-flex items-center mt-10 bg-blue-600 text-white 
+             font-semibold px-8 py-4 rounded-xl shadow-lg 
+             hover:bg-blue-700 transition duration-300"
+    >
+      Explore Travel Tribes
+      <svg class="ml-3 w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </a>
+  </div>
+
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+<section class="bg-white py-20">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+
+    <h2 class="text-4xl font-bold text-gray-900">
+      Travel Services Made Easy
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-12 mt-16">
+
+      <!-- Rent Car -->
+      <div class="p-8 rounded-3xl shadow-lg border">
+        <h3 class="text-2xl font-semibold text-gray-800">
+           Rent Cars
+        </h3>
+        <p class="text-gray-600 mt-4">
+          Choose from verified rental partners and vehicles
+          suited for solo or group travel.
+        </p>
+        <a href="rentCar"
+           class="inline-block mt-6 btn-primary px-6 py-3 rounded-xl">
+          Browse Cars
+        </a>
+      </div>
+
+      <!-- Hire Driver -->
+      <div class="p-8 rounded-3xl shadow-lg border">
+        <h3 class="text-2xl font-semibold text-gray-800">
+           Hire Drivers
+        </h3>
+        <p class="text-gray-600 mt-4">
+          Professional, verified drivers who know the routes and local culture.
+        </p>
+        <a href="hireDriver"
+           class="inline-block mt-6 btn-primary px-6 py-3 rounded-xl">
+          Find Drivers
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-gray-900 text-gray-300 py-

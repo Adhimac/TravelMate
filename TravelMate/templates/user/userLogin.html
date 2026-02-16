@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate – Login</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .input-box {
+            border: 1px solid #d1d5db;
+        }
+        .input-box:focus {
+            border-color: #00aaff;
+            box-shadow: 0 0 4px #00aaff;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-100 flex items-center justify-center">
+
+<div class="bg-white w-full max-w-md shadow-xl rounded-2xl p-8">
+
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Welcome Back</h1>
+        <p class="text-gray-500">Login to continue</p>
+    </div>
+
+    <!-- Django Messages -->
+    {% if messages %}
+    <div class="mb-4 space-y-2">
+        {% for message in messages %}
+        <p class="text-sm px-3 py-2 rounded
+            {% if message.tags == 'error' %} bg-red-100 text-red-600 
+            {% elif message.tags == 'success' %} bg-green-100 text-green-600 
+            {% endif %}">
+            {{ message }}
+        </p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Email -->
+        <div class="mb-4">
+            <input type="email" name="email" required
+                   placeholder="Email address"
+                   class="input-box w-full p-2 rounded">
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4 relative">
+            <input type="password" name="password" id="password"
+                   required placeholder="Password"
+                   class="input-box w-full p-2 rounded">
+
+            <span class="absolute right-3 top-3 cursor-pointer text-gray-500"
+                  onclick="togglePassword()">👁</span>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="text-right">
+            <a href="/forgotPassword" class="text-blue-600 text-sm hover:underline">Forgot Password?</a>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 mt-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Sign In
+        </button>
+
+        <p class="text-center text-sm mt-6">
+            Don't have an account?
+            <a href="/userRegister" class="text-blue-600 underline">Create account</a>
+        </p>
+    </form>
+</div>
+
+<script>
+function togglePassword() {
+    let input = document.getElementById("password");
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>

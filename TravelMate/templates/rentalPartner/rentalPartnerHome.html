@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Partner Home | TravelMate</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal"
+     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+
+  <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center">
+
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">
+      Confirm Logout
+    </h3>
+
+    <p class="text-gray-600 mb-6">
+      Are you sure you want to logout?
+    </p>
+
+    <div class="flex justify-center gap-4">
+      <button onclick="closeLogoutModal()"
+              class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700">
+        Cancel
+      </button>
+
+      <button onclick="confirmLogout()"
+              class="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white">
+        Logout
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<body class="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-800 text-white">
+
+<!-- Navbar -->
+<nav class="glass px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">TravelMate</h1>
+    <div class="flex items-center gap-4">
+        <span class="text-sm text-gray-200">Rental Partner</span>
+       <button onclick="openLogoutModal()"
+        class="px-4 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-sm text-white">
+  Logout
+</button>
+
+    </div>
+</nav>
+
+<!-- Main -->
+<main class="max-w-7xl mx-auto p-6 space-y-8">
+
+    <!-- Welcome Section -->
+    <section class="glass rounded-2xl p-6">
+        <h2 class="text-2xl font-semibold mb-1">Welcome back 👋</h2>
+        <p class="text-gray-300 text-sm">
+            Manage your rentals, bookings, and earnings from one place.
+        </p>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Total Bookings</p>
+            <h3 class="text-3xl font-bold mt-2">24</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Active Trips</p>
+            <h3 class="text-3xl font-bold mt-2">2</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Total Earnings</p>
+            <h3 class="text-3xl font-bold mt-2">₹42,500</h3>
+        </div>
+        <div class="glass rounded-xl p-5">
+            <p class="text-sm text-gray-300">Account Status</p>
+            <h3 class="text-xl font-semibold mt-3 text-green-400">
+               {% if pro.status == 'approved' %} Verified {% else %} Not Verified {% endif %}
+            </h3>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section>
+        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="rentalPartnerBookings" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">View Bookings</h4>
+                <p class="text-sm text-gray-300">
+                    Check upcoming and completed trips
+                </p>
+            </a>
+
+            <a href="earnings.html" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">Earnings</h4>
+                <p class="text-sm text-gray-300">
+                    Track monthly and total earnings
+                </p>
+            </a>
+
+            <a href="rentalPartnerProfile" class="glass rounded-xl p-6 hover:bg-white/20 transition">
+                <h4 class="text-lg font-semibold mb-1">Profile</h4>
+                <p class="text-sm text-gray-300">
+                    View and update your account details
+                </p>
+            </a>
+        </div>
+    </section>
+    <!-- Vehicle Management -->
+<section>
+    <h3 class="text-lg font-semibold mb-4">Vehicle Management</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Add Vehicle -->
+        <a href="addingCars" 
+           class="glass rounded-xl p-6 hover:bg-white/20 transition">
+            <h4 class="text-lg font-semibold mb-1">Add Vehicle</h4>
+            <p class="text-sm text-gray-300">
+                Register a new car for rental on TravelMate
+            </p>
+        </a>
+
+        <!-- View Car Details -->
+        <a href="myCars"
+           class="glass rounded-xl p-6 hover:bg-white/20 transition">
+            <h4 class="text-lg font-semibold mb-1">My Cars</h4>
+            <p class="text-sm text-gray-300">
+                View car details, status, and manage vehicles
+            </p>
+        </a>
+
+    </div>
+</section>
+
+
+    <!-- Recent Activity -->
+    <section class="glass rounded-2xl p-6">
+        <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+
+        <ul class="space-y-3 text-sm text-gray-300">
+            <li>✔ Booking completed from Chennai to Pondicherry</li>
+            <li>✔ Payment of ₹3,200 credited to wallet</li>
+            <li>⏳ Booking request pending approval</li>
+        </ul>
+    </section>
+
+</main>
+
+</body>
+<script>
+  function openLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('hidden');
+    document.getElementById('logoutModal').classList.add('flex');
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.add('hidden');
+    document.getElementById('logoutModal').classList.remove('flex');
+  }
+
+  function confirmLogout() {
+    window.location.href = "{% url 'rentalPartnerLogin' %}";
+  }
+</script>
+
+</html>

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Destinations | TravelMate</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fff7ed);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #ff5a5f, #ff9f43);
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-indigo-700">TravelMate</h1>
+
+    <nav class="hidden md:flex gap-8 font-medium text-gray-700">
+      <a href="/" class="hover:text-indigo-600">Home</a>
+      <a href="/coTraveler" class="hover:text-indigo-600">Travel Tribe</a>
+      <a href="/destination" class="hover:text-indigo-600">Destinations</a>
+      <a href="/rentCar" class="hover:text-indigo-600">Rent Cars</a>
+      <a href="/hireDriver" class="hover:text-indigo-600">Hire Drivers</a>
+    </nav>
+
+    <div class="flex items-center gap-5">
+      <!-- Notification -->
+      <a href="/notification" class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="w-7 h-7 text-gray-700 hover:text-indigo-700 transition"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+                   c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68
+                   C7.63 5.36 6 7.92 6 11v3.159
+                   c0 .538-.214 1.055-.595 1.436L4 17h5" />
+        </svg>
+        {% if notification_count > 0 %}
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs
+                     w-5 h-5 rounded-full flex items-center justify-center shadow">
+          {{ notification_count }}
+        </span>
+        {% endif %}
+      </a>
+
+      <!-- Profile -->
+      <a href="/userProfile"
+         class="btn-primary px-5 py-2 rounded-xl shadow flex items-center gap-2">
+        Profile
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HEADER ================= -->
+<header class="text-center py-16">
+  <h2 class="text-5xl font-extrabold text-gray-900">Explore Destinations</h2>
+  <p class="mt-4 text-lg text-gray-700 max-w-2xl mx-auto">
+    Discover curated destinations around the world — handpicked to match your next adventure.
+  </p>
+</header>
+
+<!-- ================= DESTINATION CARDS ================= -->
+<section class="max-w-7xl mx-auto px-6 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+
+  <!-- Destination Card -->
+  {% for place in destinations %}
+  <div class="bg-white rounded-3xl shadow-lg border hover:shadow-xl transition overflow-hidden">
+    <img src="{{ place.image_url }}" alt="{{ place.name }}"
+         class="w-full h-56 object-cover">
+
+    <div class="p-6">
+      <h3 class="text-2xl font-semibold text-gray-900">{{ place.name }}</h3>
+      <p class="text-gray-600 mt-3">{{ place.description }}</p>
+
+      <button class="mt-5 btn-primary px-6 py-2 rounded-xl shadow hover:opacity-90 transition">
+        Book Now
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-gray-900 text-gray-300 py-8 text-center">
+  <p>&copy; 2025 TravelMate. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

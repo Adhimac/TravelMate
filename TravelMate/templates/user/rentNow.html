@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rent Car — TravelMate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent-start: #ff5a5f;
+      --accent-end: #ff9f43;
+    }
+    .btn-accent {
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: 0.22s;
+    }
+    .btn-accent:hover { opacity: 0.92; transform: translateY(-2px); }
+    .card-shadow { box-shadow: 0 8px 24px rgba(14,30,37,0.06); }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+<!-- BACK BUTTON -->
+<a href="{% url 'rentCar' %}" 
+   class="fixed top-5 left-5 z-50 px-4 py-2 bg-white/20 text-white border border-white/30 
+          rounded-lg backdrop-blur-md hover:bg-white/30 transition font-medium flex items-center gap-2 shadow-md">
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" 
+         viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M15 19l-7-7 7-7" />
+    </svg>
+
+    Back
+</a>
+
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+  <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-red-300 flex items-center justify-center text-white font-bold">
+        TM
+      </div>
+      <span class="text-lg font-semibold text-[var(--primary)]">TravelMate</span>
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative h-40 bg-[url('https://source.unsplash.com/1600x900/?car,travel')] bg-cover bg-center flex items-center">
+  <div class="absolute inset-0 bg-black/45"></div>
+  <div class="relative max-w-6xl mx-auto px-6 text-white">
+    <h1 class="text-2xl md:text-3xl font-extrabold" data-aos="fade-up">Rent — Confirm Booking</h1>
+    <p class="text-sm mt-1 text-white/90" data-aos="fade-up" data-aos-delay="80">Complete your booking and confirmation.</p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+<!-- LEFT -->
+<section class="lg:col-span-2">
+  <div class="bg-white rounded-2xl p-6 card-shadow" data-aos="fade-up">
+
+    <!-- CAR INFO -->
+    <div class="flex flex-col md:flex-row gap-6">
+      <img id="car-image" src="https://source.unsplash.com/500x350/?car" 
+           class="w-full md:w-72 h-44 object-cover rounded-lg shadow-sm">
+
+      <div class="flex-1">
+        <h2 id="car-name" class="text-2xl font-semibold text-[var(--primary)]">Car Model</h2>
+        <p id="dealer-name" class="text-sm text-gray-600 mt-2">Dealer: <span class="font-medium">Dealer Name</span></p>
+        <p id="car-meta" class="text-gray-600 mt-3">Type • Seats • Transmission</p>
+
+        <div class="mt-4 flex items-center gap-4">
+          <div>
+            <div class="text-xs text-gray-500">Price per day</div>
+            <div id="price-per-day" class="text-xl font-bold text-[var(--primary)]">₹0</div>
+          </div>
+          <div class="ml-auto text-sm text-gray-500">
+            Reference: <span id="ref-code">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-6">
+
+    <!-- BOOKING FORM -->
+    <form id="rent-form" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% csrf_token %}
+
+      {% for messages in messages %}
+        {{ messages }}
+      {% endfor %}
+
+      <!-- REQUIRED HIDDEN FIELDS (RESTORED) -->
+      <input type="hidden" name="car_id" id="car-id">
+      <input type="hidden" name="dealer" id="dealer-field">
+      <input type="hidden" name="price_day" id="price-day-field" value="0">
+
+      <div>
+        <label class="text-sm font-medium">Full name</label>
+        <input required name="customer_name" value="{{ us.Name }}" type="text"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Phone</label>
+        <input required name="phone" value="{{ us.phoneNumber }}" type="tel"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Pickup location</label>
+        <input required name="pickupLocation" type="text"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Drop location</label>
+        <input required name="dropLocation" type="text"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Start date</label>
+        <input required name="startDate" id="start-date" type="date"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">End date</label>
+        <input required name="endDate" id="end-date" type="date"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Number of days</label>
+        <input required name="numberOfDays" id="days" type="number" min="1"
+               class="mt-1 w-full border rounded-lg px-3 py-2" value="1">
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Preferred time</label>
+        <input name="preferredTime" id="time" type="time"
+               class="mt-1 w-full border rounded-lg px-3 py-2">
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="text-sm font-medium">Notes</label>
+        <textarea name="notes" rows="3"
+                  class="mt-1 w-full border rounded-lg px-3 py-2"></textarea>
+      </div>
+
+      <!-- BUTTON -->
+      <div class="md:col-span-2 flex justify-between mt-4">
+        <a href="{% url 'rentCar' %}" class="text-sm text-gray-600 hover:underline">← Back to cars</a>
+
+{% comment %} <button type="button" onclick="validateAndGo()" class="btn-accent px-6 py-2">
+    Confirm & Pay
+</button> {% endcomment %}
+<button type="submit" class="btn-accent px-6 py-2" onclick="return validateFields()">
+    Confirm & Pay
+</button>
+
+
+<script>
+function confirmBooking() {
+    return confirm("Are you sure you want to confirm this booking?");
+}
+</script>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- RIGHT SUMMARY -->
+<aside class="bg-white rounded-2xl p-6 card-shadow" data-aos="fade-up">
+  <h3 class="text-lg font-semibold text-gray-800">Booking Summary</h3>
+
+  <div class="mt-4 space-y-3 text-sm text-gray-700">
+    <div class="flex justify-between"><span>Car</span><span id="summary-car">—</span></div>
+    <div class="flex justify-between"><span>Dealer</span><span id="summary-dealer">—</span></div>
+    <div class="flex justify-between"><span>Price / day</span><span id="summary-price">₹0</span></div>
+    <div class="flex justify-between"><span>Days</span><span id="summary-days">1</span></div>
+
+    <div class="flex justify-between font-bold text-[var(--primary)] text-lg">
+      <span>Total</span><span id="summary-total">₹0</span>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <label class="flex items-center gap-2 text-sm">
+    <input id="agree" type="checkbox">
+    <span>I agree to the terms & conditions.</span>
+  </label>
+</aside>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-[var(--primary)] text-white py-8 mt-10">
+  <div class="max-w-6xl mx-auto px-6 flex justify-between">
+    <div>
+      <div class="font-bold text-lg">TravelMate</div>
+      <div class="text-sm text-white/90 mt-1">© 2025 TravelMate. All Rights Reserved.</div>
+    </div>
+  </div>
+</footer>
+<script>
+function validateFields() {
+    let name = document.querySelector("input[name='customer_name']").value.trim();
+    let phone = document.querySelector("input[name='phone']").value.trim();
+    let pickup = document.querySelector("input[name='pickupLocation']").value.trim();
+    let drop = document.querySelector("input[name='dropLocation']").value.trim();
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
+    let days = document.getElementById("days").value;
+    let agree = document.getElementById("agree").checked;
+
+    if (!name || !phone || !pickup || !drop || !startDate || !endDate || !days) {
+        alert("Please fill all required fields.");
+        return false;
+    }
+    if (phone.length !== 10 || isNaN(phone)) {
+        alert("Invalid phone number!");
+        return false;
+    }
+    if (new Date(endDate) < new Date(startDate)) {
+        alert("End date cannot be earlier than start date!");
+        return false;
+    }
+    if (!agree) {
+        alert("You must agree to terms & conditions.");
+        return false;
+    }
+
+    return confirm("Are you sure you want to confirm this booking?");
+}
+</script>
+
+{% comment %} <script>
+function validateAndGo() {
+    let name = document.querySelector("input[name='customer_name']").value.trim();
+    let phone = document.querySelector("input[name='phone']").value.trim();
+    let pickup = document.querySelector("input[name='pickupLocation']").value.trim();
+    let drop = document.querySelector("input[name='dropLocation']").value.trim();
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
+    let days = document.getElementById("days").value;
+    let agree = document.getElementById("agree").checked;
+
+    if (!name || !phone || !pickup || !drop || !startDate || !endDate || !days) {
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    if (phone.length !== 10 || isNaN(phone)) {
+        alert("Invalid phone number.");
+        return;
+    }
+
+    if (new Date(endDate) < new Date(startDate)) {
+        alert("End date cannot be before start date!");
+        return;
+    }
+
+    if (!agree) {
+        alert("Please accept the terms & conditions.");
+        return;
+    }
+
+    if (confirm("Are you sure you want to confirm this booking?")) {
+        window.location.href = "/booking?amount=" + 
+            document.getElementById('summary-total').innerText.replace("₹","").replace(",","") +
+            "&destination=" + pickup +
+            "&date=" + startDate +
+            "&passengers=1";
+    }
+}
+</script> {% endcomment %}
+
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+AOS.init({ duration: 700, once: true });
+
+/* ---------------------------
+     POPULATE FROM PARAMS
+---------------------------- */
+function getParams() {
+  const params = new URLSearchParams(location.search);
+  const result = {};
+  for (const [k, v] of params.entries()) result[k] = v;
+  return result;
+}
+
+(function populateFromParams() {
+  const p = getParams();
+  const carName = decodeURIComponent(p.car || "") || "{{ car.vehicleName }}";
+  const dealer = decodeURIComponent(p.dealer || "") || "{{ car.partner.name }}";
+  const price = Number(p.price || "{{ car.rentPerDay }}");
+  const img = decodeURIComponent(p.img || "") || "{{ car.vehicleImage.url }}";
+  const meta = decodeURIComponent(p.meta || "") || "{{ car.vehicleType }} • {{ car.seatingCapacity }} seats";
+  const ref = p.ref || "REF-" + Math.floor(Math.random()*9000+1000);
+
+  document.getElementById("car-name").textContent = carName;
+  document.getElementById("dealer-name").querySelector("span").textContent = dealer;
+  document.getElementById("car-meta").textContent = meta;
+  document.getElementById("car-image").src = img;
+  document.getElementById("price-per-day").textContent = "₹" + price.toLocaleString() + "/day";
+  document.getElementById("ref-code").textContent = ref;
+
+  document.getElementById("summary-car").textContent = carName;
+  document.getElementById("summary-dealer").textContent = dealer;
+  document.getElementById("summary-price").textContent = "₹" + price.toLocaleString();
+
+  document.getElementById("price-day-field").value = price;
+
+  updateTotal();
+})();
+
+/* ---------------------------
+       AUTO-CALCULATE DAYS
+---------------------------- */
+function autoCalculateDays() {
+  const start = document.getElementById("start-date").value;
+  const end = document.getElementById("end-date").value;
+
+  if (!start || !end) return;
+
+  const s = new Date(start);
+  const e = new Date(end);
+
+  let diff = Math.ceil((e - s) / (1000 * 60 * 60 * 24));
+
+  if (diff < 1) diff = 1;
+
+  document.getElementById("days").value = diff;
+  updateTotal();
+}
+
+document.getElementById("start-date").addEventListener("change", autoCalculateDays);
+document.getElementById("end-date").addEventListener("change", autoCalculateDays);
+
+/* ---------------------------
+        UPDATE TOTAL
+---------------------------- */
+function updateTotal() {
+  const days = Number(document.getElementById("days").value) || 1;
+  const price = Number(document.getElementById("price-day-field").value) || 0;
+
+  const total = days * price;
+
+  document.getElementById("summary-days").textContent = days;
+  document.getElementById("summary-total").textContent = "₹" + total.toLocaleString();
+}
+
+document.getElementById("days").addEventListener("input", updateTotal);
+
+</script>
+
+</body>
+</html>

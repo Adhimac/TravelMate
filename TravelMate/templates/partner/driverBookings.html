@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <h1 class="text-2xl font-bold mb-6">🚗 My Bookings</h1>
+
+    {% if bookings %}
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+        <table class="min-w-full text-sm">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="px-4 py-2">Customer</th>
+                    <th class="px-4 py-2">Pickup</th>
+                    <th class="px-4 py-2">Drop</th>
+                    <th class="px-4 py-2">Date</th>
+                    <th class="px-4 py-2">Time</th>
+                    <th class="px-4 py-2">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr class="border-b">
+                    <td class="px-4 py-2">{{ booking.user.username }}</td>
+                    <td class="px-4 py-2">{{ booking.pickup_location }}</td>
+                    <td class="px-4 py-2">{{ booking.drop_location }}</td>
+                    <td class="px-4 py-2">{{ booking.booking_date }}</td>
+                    <td class="px-4 py-2">{{ booking.booking_time }}</td>
+                    <td class="px-4 py-2">
+                        <span class="px-2 py-1 rounded text-white
+                        {% if booking.status == 'Pending' %} bg-yellow-500
+                        {% elif booking.status == 'Confirmed' %} bg-blue-500
+                        {% elif booking.status == 'Completed' %} bg-green-500
+                        {% else %} bg-red-500 {% endif %}">
+                            {{ booking.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-gray-600">No bookings assigned yet.</p>
+    {% endif %}
+
+</body>
+</html>

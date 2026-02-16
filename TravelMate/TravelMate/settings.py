@@ -53,13 +53,22 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'yourEmail@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-app-password'
+
+RAZORPAY_API_KEY ="rzp_test_FIe1SX15kUaufe"
+RAZORPAY_API_SECRET_KEY ="DpNdaW3ANcDNI9U6KgYGvFaY"
 
 ROOT_URLCONF = 'TravelMate.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'template')],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

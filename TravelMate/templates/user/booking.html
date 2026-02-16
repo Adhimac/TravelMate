@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate – Secure Payment</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            background: url("{% static 'img/travel-bg.jpg' %}") no-repeat center center/cover;
+            background-attachment: fixed;
+        }
+        .glass-box {
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.17);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <!-- PAYMENT CARD -->
+    <div class="glass-box max-w-lg w-full rounded-3xl shadow-xl text-white p-8">
+
+        <!-- Logo -->
+        <div class="flex flex-col items-center mb-6">
+            <img src="{% static 'img/logo.png' %}" class="w-20 mb-2 opacity-90">
+            <h2 class="text-3xl font-bold tracking-wide">Secure Payment</h2>
+            <p class="text-sm text-gray-300">Complete your TravelMate booking</p>
+        </div>
+
+        <!-- Price Box -->
+        <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black rounded-2xl p-6 text-center shadow-lg mb-6">
+            <p class="text-lg font-semibold">Total Amount</p>
+            <h1 class="text-5xl font-extrabold mt-2">₹{{ a }}</h1>
+        </div>
+
+        <!-- Trip Info -->
+        <div class="bg-white/10 p-4 rounded-xl border border-white/20 mb-6">
+            <p class="text-gray-200"><strong>Destination:</strong> {{ destination }}</p>
+            <p class="text-gray-200"><strong>Date:</strong> {{ date }}</p>
+            <p class="text-gray-200"><strong>Passengers:</strong> {{ users }}</p>
+        </div>
+
+        <!-- Payment Image -->
+        <div class="flex justify-center mb-6">
+            <img src="{% static 'assets/img/pay.jpeg' %}" class="rounded-xl shadow-lg w-60">
+        </div>
+
+        <!-- Pay Button -->
+        <button id="rzp-button1"
+            class="w-full bg-green-400 hover:bg-green-300 text-black font-semibold py-3 rounded-xl text-lg shadow-lg transition">
+            Pay with Razorpay
+        </button>
+
+        <p class="mt-4 text-center text-xs text-gray-300">
+            🔒 Your payment is encrypted and 100% secure
+        </p>
+    </div>
+
+
+    <!-- Razorpay Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        var options = {
+            "key": "{{ api_key }}",
+            "amount": "{{ razor_amount }}",
+            "currency": "INR",
+            "name": "TravelMate",
+            "description": "Travel Booking Payment",
+            "image": "{% static 'img/logo.png' %}",
+            "order_id": "{{ order_id }}",
+
+            "handler": function (response){
+                window.location.href = "/paymentSuccess?pid=" + response.razorpay_payment_id;
+            },
+
+            "prefill": {
+                "name": "{{ userName }}",
+                "email": "{{ userEmail }}",
+                "contact": "{{ userPhone }}"
+            },
+
+            "theme": {
+                "color": "#00FFD1"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        document.getElementById('rzp-button1').onclick = function(e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+
+</body>
+</html>
